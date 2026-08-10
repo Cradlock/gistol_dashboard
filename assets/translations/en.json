@@ -1,0 +1,49 @@
+{
+  "pages":{
+    "main":"Dashboard",
+    "profile":"Profile",
+    "settings":"Settings"
+  },
+  "navigation": {
+    "menu_title": "Menu",
+    "home_btn": "Home",
+    "tasks_btn": "Tasks",
+    "settings_btn": "Settings",
+    "account_btn": "Profile"
+  },
+  
+  "auth": {
+    "login_btn": "Login",
+    "username_hint_text":"login...",
+    "username_label":"Login", 
+    "password_hint_text":"password...",
+    "password_label":"Password",
+    "sign": "Sign...",
+    "retry": "Retry"
+  },
+  
+  "documents": {
+    "terms_title": "Terms of Service",
+    "privacy_title": "Privacy Policy"
+  },
+  
+  "settings": {
+    "settings_darkmode": "Dark mode",
+    "settings_langmode": "Language"
+  },
+  
+  "errors": {
+    "system": {
+      "no_auth": "User not authorized (not tokens)",
+      "session_expired": "Auth session expired. Need login",
+      "server_trouble": "Server error"
+    },
+    "network": {
+      "no_connection": "Not internet connections",
+      "no_connection_label": "Oops! no internet"
+    },
+    "auth": {
+      "invalid_sign_data": "Incorrect password or code"
+    }
+  }
+}

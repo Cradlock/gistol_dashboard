@@ -1,0 +1,49 @@
+{
+  "pages":{
+    "main":"Главная страница",
+    "profile":"Профиль",
+    "settings":"Настройки"
+  },
+  "navigation": {
+    "menu_title": "Меню",
+    "home_btn": "Главная",
+    "tasks_btn": "Задачи",
+    "settings_btn": "Настройки",
+    "account_btn": "Аккаунт"
+  },
+  
+  "auth": {
+    "login_btn": "Войти",
+    "sign": "Вход...",
+    "username_hint_text":"Ваш логин...",
+    "username_label":"Логин",
+    "password_hint_text":"Пароль...",
+    "password_label":"Пароль",
+    "retry": "Повторить"
+  },
+  
+  "documents": {
+    "terms_title": "Условия использования",
+    "privacy_title": "Политика конфиденциальности"
+  },
+  
+  "settings": {
+    "settings_darkmode": "Тёмная тема",
+    "settings_langmode": "Язык"
+  },
+  
+  "errors": {
+    "system": {
+      "no_auth": "Пользователь не авторизован (нет токенов)",
+      "session_expired": "Сессия авторизации истекла. Необходим повторный вход",
+      "server_trouble": "Ошибка сервера"
+    },
+    "network": {
+      "no_connection": "Отсутствует подключение к интернету",
+      "no_connection_label": "Упс! Нет интернета"
+    },
+    "auth": {
+      "invalid_sign_data": "Неверный пароль или код"
+    }
+  }
+}
