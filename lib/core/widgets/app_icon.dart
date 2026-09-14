@@ -18,8 +18,6 @@ class AppIcon extends StatelessWidget {
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        // Небольшая подложка на случай прозрачного PNG (берем из темы)
-        color: colors.primary.withOpacity(0.1), 
         image: const DecorationImage(
           image: AssetImage('assets/app_icon.png'),
           fit: BoxFit.contain, // Растягивает картинку, чтобы она заполнила весь круг без искажений

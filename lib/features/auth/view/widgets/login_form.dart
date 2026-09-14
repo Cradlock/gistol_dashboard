@@ -23,6 +23,14 @@ class _LoginForm extends State<LoginForm> {
   
   bool _obscurePassword = true; 
 
+@override
+  void initState() {
+    final authProvider = context.read<AuthProvider>();
+    super.initState();
+  }
+
+
+  
   @override
   void dispose() {
     _usernameCont.dispose();
@@ -47,7 +55,12 @@ class _LoginForm extends State<LoginForm> {
     if (authProvider.currentError != null ) {
       ErrorHandler.handle(authProvider.currentError!, context: context);
     }else{
-      context.go("/home");
+      if (context.canPop() ) {
+        
+        context.pop(); // Возвращаемся на предыдущую страницу
+      } else {
+        context.go("/home"); // Если истории нет — идем на /home
+      }
     }
 
   }
@@ -65,8 +78,8 @@ class _LoginForm extends State<LoginForm> {
         Input(
           controller: _usernameCont, 
           focusNode: _usernameFocus, 
-          label: "auth.username_label".tr(),
-          hint: "auth.username_hint_text".tr(),
+          label: AppStrings.auth.usernameLabel.tr(),
+          hint: AppStrings.auth.usernameHint.tr(),
           prefixIcon: Icons.person_outline,
           textInputAction: TextInputAction.next,
         ),
@@ -74,8 +87,8 @@ class _LoginForm extends State<LoginForm> {
         Input(
           controller: _passwordCont, 
           focusNode: _passwordFocus, 
-          label: "auth.password_label".tr(),
-          hint: "auth.password_hint_text".tr(),
+          label: AppStrings.auth.passwordLabel.tr(),
+          hint: AppStrings.auth.passwordHint.tr(),
           prefixIcon: Icons.lock_outline,
           // Указываем, что это поле пароля, и передаем текущее состояние скрытности
           isPassword: true,
@@ -95,7 +108,7 @@ class _LoginForm extends State<LoginForm> {
             height: 20,
             width: 20,
             child: CircularProgressIndicator(strokeWidth: 2,color: Colors.white)
-          ) : Text("auth.login_btn".tr()),
+          ) : Text(AppStrings.auth.loginBtn.tr()),
         ),
 
       ],

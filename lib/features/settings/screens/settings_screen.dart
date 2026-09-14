@@ -2,6 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:gistol_dashboard/core/strings.dart';
 import 'package:gistol_dashboard/features/settings/settings.dart';
 import 'package:provider/provider.dart';
 
@@ -72,14 +73,14 @@ class SettingsScreen extends StatelessWidget{
                 children: [
                   
                   SwitchListTile(
-                    title: Text("settings.settings_darkmode".tr()),
+                    title: Text(AppStrings.settings.darkmode.tr()),
                     secondary: const Icon(Icons.dark_mode),
                     value: settingsProvider.isDarkMode, 
                     onChanged: (val) => settingsProvider.toggleTheme(val)
                   ),
                   
                   ListTile(
-                    title: Text("settings.settings_langmode".tr()),
+                    title: Text(AppStrings.settings.langmode.tr()),
                     leading: const Icon(Icons.language),
                     trailing: Text( currentLanguageName,style: Theme.of(context).textTheme.titleMedium ),
                     onTap: () {

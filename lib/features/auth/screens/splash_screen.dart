@@ -7,6 +7,7 @@ import 'package:gistol_dashboard/core/widgets/app_icon.dart';
 import 'package:gistol_dashboard/features/auth/auth.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:gistol_dashboard/features/groups/groups.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart'; 
 
@@ -33,17 +34,24 @@ class _SplashScreenState extends State<SplashScreen>{
 
   Future<void> _startAppInit() async { 
     final AuthProvider authProvider = context.read<AuthProvider>();
+    final groupProvider = context.read<GroupProvider>();
     
-    final isLogged = await authProvider.checkLoginStatus();
     
-    debugPrint(isLogged.toString());
-    if(!mounted) return;
-
-    if(!isLogged){
-      context.go("/login");
-    } else {
-      context.go("/home");
+    try{
+      
+      await authProvider.checkLoginStatus();
+      await groupProvider.initYears();
+    } on AppException catch(error) {
+      ErrorHandler.handle(error);
     }
+
+    if(!mounted) return;
+  
+    if(authProvider.currentError != null) {
+      ErrorHandler.handle(authProvider.currentError!);
+    }
+
+    context.go("/home");
 
   }
 

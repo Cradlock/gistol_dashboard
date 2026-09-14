@@ -1,49 +1,106 @@
 {
-  "pages":{
-    "main":"Главная страница",
-    "profile":"Профиль",
-    "settings":"Настройки"
+  "common": {
+    "cancel": "Отмена",
+    "yes": "Да",
+    "ok": "ОК",
+    "exit": "Выход",
+    "save": "Сохранить",
+    "create": "Создать",
+    "retry": "Повторить",
+    "error_blank_input": "Заполните поле",
+    "from": "От",
+    "to": "До",
+    "error_no_internet": "Нет подключения к интернету",
+    "error_server_error": "Ошибка сервера",
+    "error_timeout": "Превышено время ожидания"
+  },
+  "auth": {
+    "error_incorrect_password_or_code": "Неверный пароль или код",
+    "username_label": "Логин",
+    "username_hint_text": "Введите логин",
+    "password_label": "Пароль",
+    "password_hint_text": "Введите пароль",
+    "login_btn": "Войти"
   },
   "navigation": {
-    "menu_title": "Меню",
-    "home_btn": "Главная",
-    "tasks_btn": "Задачи",
-    "settings_btn": "Настройки",
-    "account_btn": "Аккаунт"
+    "menu": "Меню",
+    "home": "Главная"
   },
-  
-  "auth": {
-    "login_btn": "Войти",
-    "sign": "Вход...",
-    "username_hint_text":"Ваш логин...",
-    "username_label":"Логин",
-    "password_hint_text":"Пароль...",
-    "password_label":"Пароль",
-    "retry": "Повторить"
-  },
-  
-  "documents": {
-    "terms_title": "Условия использования",
-    "privacy_title": "Политика конфиденциальности"
-  },
-  
-  "settings": {
-    "settings_darkmode": "Тёмная тема",
-    "settings_langmode": "Язык"
-  },
-  
   "errors": {
-    "system": {
-      "no_auth": "Пользователь не авторизован (нет токенов)",
-      "session_expired": "Сессия авторизации истекла. Необходим повторный вход",
-      "server_trouble": "Ошибка сервера"
-    },
     "network": {
-      "no_connection": "Отсутствует подключение к интернету",
-      "no_connection_label": "Упс! Нет интернета"
-    },
-    "auth": {
-      "invalid_sign_data": "Неверный пароль или код"
+      "no_internet_label": "Нет интернета",
+      "no_connection_label": "Нет связи с сервером"
     }
+  },
+  "settings": {
+    "title": "Настройки",
+    "darkmode": "Тёмная тема",
+    "langmode": "Язык"
+  },
+  "groups": {
+    "title": "Группы",
+    "filters": "Фильтры",
+    "sort": "Сортировка",
+    "sort_field_date": "Дата",
+    "sort_field_students": "Студенты",
+    "sort_field_title": "Название",
+    "reset_sort": "Сбросить сортировку",
+    "reset_filters": "Сбросить фильтры",
+    "min_to_max": "По возрастанию",
+    "max_to_min": "По убыванию",
+    "sort_order": "Порядок",
+    "sort_field": "Поле",
+    "add_placeholder_title": "Название группы",
+    "add_placeholder_course": "Курс",
+    "search_placeholder": "Название",
+    "course": "курс",
+    "created": "Создана",
+    "not_selected": "Ничего не выбрано",
+    "delete_question": "Удалить выбранные группы?",
+    "error_duplicate": "Такая группа уже существует",
+    "filterCourseRangeLabel": "Курс",
+    "filterDateRangeLabel": "Дата создания",
+    "filterStudentsCountRangeLabel": "Количество студентов"
+  },
+  "students": {
+    "title": "Студенты",
+    "year_sort_label": "Курс",
+    "scores_sort_label": "Баллы",
+    "error_student_not_found": "Студент не найден",
+    "edit_placeholder_name": "Имя",
+    "edit_placeholder_surname": "Фамилия",
+    "edit_placeholder_year": "Курс",
+    "edit_placeholder_group": "Группа",
+    "edit_placeholder_scores": "Баллы",
+    "fio_placeholder": "ФИО",
+    "sort": "Сортировка",
+    "filters": "Фильтры",
+    "reset_sort": "Сбросить сортировку",
+    "reset_filters": "Сбросить фильтры",
+    "sort_order": "Порядок",
+    "sort_field": "Поле",
+    "filter_course_range": "Курс",
+    "filter_group": "Группа",
+    "new_students": "Новые студенты",
+    "deleted_students": "Удалённые студенты",
+    "not_selected": "Никто не выбран",
+    "delete_question": "Удалить выбранных студентов?",
+    "confirm_question": "Подтвердить выбранных студентов?",
+    "unconfirm_question": "Снять подтверждение у выбранных студентов?",
+    "recovery_question": "Восстановить выбранных студентов?"
+  },
+  "months": {
+    "1": "января",
+    "2": "февраля",
+    "3": "марта",
+    "4": "апреля",
+    "5": "мая",
+    "6": "июня",
+    "7": "июля",
+    "8": "августа",
+    "9": "сентября",
+    "10": "октября",
+    "11": "ноября",
+    "12": "декабря"
   }
 }

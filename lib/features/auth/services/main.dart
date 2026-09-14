@@ -15,12 +15,12 @@ class AuthService {
   Future<WrResponse<AuthSignResponse>> login(String username,String password) async {
     AuthSignRequest data = AuthSignRequest(username: username, password: password);
     
-    return await _api.post<AuthSignResponse>("/api/auth/admin", fromJson: AuthSignResponse.fromJson, data: data);     
+    return await _api.post<AuthSignResponse>("auth/admin", converter: AuthSignResponse.converter,data: data);     
 
   }
   
   Future<WrResponse<User>> me() async {
-    return await _api.get<User>("/api/student/me", fromJson: User.fromJson);
+    return await _api.get<User>("student/me", converter: User.converter);
   }
 
 }

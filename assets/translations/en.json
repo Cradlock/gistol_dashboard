@@ -1,49 +1,106 @@
 {
-  "pages":{
-    "main":"Dashboard",
-    "profile":"Profile",
-    "settings":"Settings"
+  "common": {
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "ok": "OK",
+    "exit": "Exit",
+    "save": "Save",
+    "create": "Create",
+    "retry": "Retry",
+    "error_blank_input": "This field is required",
+    "from": "From",
+    "to": "To",
+    "error_no_internet": "No internet connection",
+    "error_server_error": "Server error",
+    "error_timeout": "Request timed out"
+  },
+  "auth": {
+    "error_incorrect_password_or_code": "Incorrect password or code",
+    "username_label": "Username",
+    "username_hint_text": "Enter username",
+    "password_label": "Password",
+    "password_hint_text": "Enter password",
+    "login_btn": "Sign in"
   },
   "navigation": {
-    "menu_title": "Menu",
-    "home_btn": "Home",
-    "tasks_btn": "Tasks",
-    "settings_btn": "Settings",
-    "account_btn": "Profile"
+    "menu": "Menu",
+    "home": "Home"
   },
-  
-  "auth": {
-    "login_btn": "Login",
-    "username_hint_text":"login...",
-    "username_label":"Login", 
-    "password_hint_text":"password...",
-    "password_label":"Password",
-    "sign": "Sign...",
-    "retry": "Retry"
-  },
-  
-  "documents": {
-    "terms_title": "Terms of Service",
-    "privacy_title": "Privacy Policy"
-  },
-  
-  "settings": {
-    "settings_darkmode": "Dark mode",
-    "settings_langmode": "Language"
-  },
-  
   "errors": {
-    "system": {
-      "no_auth": "User not authorized (not tokens)",
-      "session_expired": "Auth session expired. Need login",
-      "server_trouble": "Server error"
-    },
     "network": {
-      "no_connection": "Not internet connections",
-      "no_connection_label": "Oops! no internet"
-    },
-    "auth": {
-      "invalid_sign_data": "Incorrect password or code"
+      "no_internet_label": "No internet",
+      "no_connection_label": "Cannot reach the server"
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "darkmode": "Dark theme",
+    "langmode": "Language"
+  },
+  "groups": {
+    "title": "Groups",
+    "filters": "Filters",
+    "sort": "Sort",
+    "sort_field_date": "Date",
+    "sort_field_students": "Students",
+    "sort_field_title": "Title",
+    "reset_sort": "Reset sort",
+    "reset_filters": "Reset filters",
+    "min_to_max": "Ascending",
+    "max_to_min": "Descending",
+    "sort_order": "Order",
+    "sort_field": "Field",
+    "add_placeholder_title": "Group title",
+    "add_placeholder_course": "Year",
+    "search_placeholder": "Title",
+    "course": "year",
+    "created": "Created",
+    "not_selected": "Nothing selected",
+    "delete_question": "Delete selected groups?",
+    "error_duplicate": "This group already exists",
+    "filterCourseRangeLabel": "Year",
+    "filterDateRangeLabel": "Created date",
+    "filterStudentsCountRangeLabel": "Student count"
+  },
+  "students": {
+    "title": "Students",
+    "year_sort_label": "Year",
+    "scores_sort_label": "Scores",
+    "error_student_not_found": "Student not found",
+    "edit_placeholder_name": "First name",
+    "edit_placeholder_surname": "Last name",
+    "edit_placeholder_year": "Year",
+    "edit_placeholder_group": "Group",
+    "edit_placeholder_scores": "Scores",
+    "fio_placeholder": "Full name",
+    "sort": "Sort",
+    "filters": "Filters",
+    "reset_sort": "Reset sort",
+    "reset_filters": "Reset filters",
+    "sort_order": "Order",
+    "sort_field": "Field",
+    "filter_course_range": "Year",
+    "filter_group": "Group",
+    "new_students": "New students",
+    "deleted_students": "Deleted students",
+    "not_selected": "Nothing selected",
+    "delete_question": "Delete selected students?",
+    "confirm_question": "Confirm selected students?",
+    "unconfirm_question": "Unconfirm selected students?",
+    "recovery_question": "Restore selected students?"
+  },
+  "months": {
+    "1": "January",
+    "2": "February",
+    "3": "March",
+    "4": "April",
+    "5": "May",
+    "6": "June",
+    "7": "July",
+    "8": "August",
+    "9": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December"
   }
 }

@@ -3,8 +3,12 @@
 
 // lib/core/api/auth_interceptor.dart
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:gistol_dashboard/core/core.dart';
+import 'package:gistol_dashboard/features/auth/auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../domain/auth.dart';
@@ -14,7 +18,8 @@ class AuthInterceptor extends Interceptor {
   // Если использовать тот же самый Dio, где висит этот интерцептор,
   // мы уйдем в бесконечную рекурсию (зациклимся).
   final Dio _refreshDio = Dio(BaseOptions(baseUrl: dotenv.get("BASE_URL")));
-
+  
+  Completer<void>? _refreshCompleter;
   bool _isRefreshing = false;
   
   @override
@@ -41,11 +46,15 @@ class AuthInterceptor extends Interceptor {
     // Если ошибка НЕ связана с авторизацией (не 401), просто прокидываем её дальше
     if (err.response?.statusCode != 401) {
       return handler.next(err);
-    }
-
-    if(_isRefreshing) {
+    }// Если кто-то уже обновляет токен, ждем завершения его Completer'а
+  if (_isRefreshing) {
+    // Если комплитер еще жив — ждем его завершения
+    if (_refreshCompleter != null) {
+      await _refreshCompleter!.future;
       return _retryRequest(err, handler);
     }
+    return handler.next(err);
+  }
     
     _isRefreshing = true;
 
@@ -60,13 +69,17 @@ class AuthInterceptor extends Interceptor {
       }
 
       // 1. Пытаемся обновить токены на бэкенде
-      // Важно: передаем refresh в заголовке или body, как требует твой бэк
       final response = await _refreshDio.post<Map<String,dynamic>>(
         '/api/auth/refresh',
+        options: Options( 
+          headers: {
+            'Authorization': 'Bearer $refreshToken'
+          }
+        ), 
         data: RefreshRequest(refresh_token: refreshToken).toJson()
-      );       
+      );     
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final tokens = RefreshResponse.fromJson(response.data);
+        final tokens = RefreshResponse.converter(response.data);
 
         await prefs.setString('access_token', tokens.access_token);
         await prefs.setString('refresh_token', tokens.refresh_token);
@@ -118,5 +131,6 @@ class AuthInterceptor extends Interceptor {
     await prefs.remove('access_token');
     await prefs.remove('refresh_token');
     
+    ErrorHandler.handle(SessionExpired());
   }
 }

@@ -6,7 +6,7 @@ abstract class ToJsonable {
 }
 
 // Контракт на преврашение из Json
-typedef FromJson<T> = T Function(Map<String, dynamic>? json);
+typedef Converter<T> = T Function(dynamic data);
 
 
 
@@ -19,7 +19,7 @@ class WrResponse<T> {
   final bool isSuccess;
 
 
-  
+ 
   WrResponse({
     this.data,
     required this.statusCode,

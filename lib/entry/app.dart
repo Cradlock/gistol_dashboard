@@ -2,20 +2,27 @@ import 'package:flutter/foundation.dart';
 import 'package:gistol_dashboard/core/core.dart';
 import 'package:gistol_dashboard/entry/entry.dart';
 import 'package:gistol_dashboard/features/auth/auth.dart';
+import 'package:gistol_dashboard/features/groups/groups.dart';
 import 'package:gistol_dashboard/features/settings/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:gistol_dashboard/features/students/view/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // Добавили импорт пакета
 
+
 class MainApp extends StatelessWidget {
   final SettingsProvider settingsProvider;
   final AuthProvider authProvider;
+  final GroupProvider groupProvider;
+  final StudentsProvider studentsProvider;
 
   const MainApp({
     super.key,
     required this.settingsProvider,
     required this.authProvider,
+    required this.groupProvider,
+    required this.studentsProvider
   });
 
   @override
@@ -32,6 +39,8 @@ class MainApp extends StatelessWidget {
             providers: [
               ChangeNotifierProvider<SettingsProvider>.value(value: settingsProvider),
               ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
+              ChangeNotifierProvider<GroupProvider>.value(value: groupProvider),
+              ChangeNotifierProvider<StudentsProvider>.value(value: studentsProvider)
             ],
             // Передаем управление в ядро приложения
             child: const _MaterialAppCore(),
@@ -52,6 +61,7 @@ class _MaterialAppCore extends StatelessWidget {
     final settings = context.watch<SettingsProvider>();
     
     return MaterialApp.router(
+          
           routerConfig: AppRouter.router,
           debugShowCheckedModeBanner: false,
           theme: settings.isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme,

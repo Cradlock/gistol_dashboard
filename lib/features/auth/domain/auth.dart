@@ -1,6 +1,7 @@
 
 import 'package:gistol_dashboard/core/api/domain.dart';
 import 'package:gistol_dashboard/core/core.dart';
+import 'package:gistol_dashboard/core/errors/common.dart';
 import 'package:gistol_dashboard/features/auth/domain/errors.dart';
 import 'package:gistol_dashboard/features/auth/domain/user.dart';
 
@@ -34,10 +35,8 @@ class RefreshResponse {
 
     RefreshResponse({required this._access_token,required this._refresh_token});
 
-    factory RefreshResponse.fromJson(Map<String,dynamic>? json) {
-      if (json == null || !json.containsKey('access_token') || !json.containsKey('refresh_token')) {
-        throw const ServerTroubleException();
-      }
+    factory RefreshResponse.converter(dynamic json) {
+      
 
       return RefreshResponse(
         access_token: json["access_token"],
@@ -67,7 +66,6 @@ class AuthSignRequest implements ToJsonable {
 
 
 
-
 class AuthSignResponse {
   final String accessToken;
   final String refreshToken;
@@ -79,18 +77,13 @@ class AuthSignResponse {
     required this.user,
   });
 
-  factory AuthSignResponse.fromJson(Map<String, dynamic>? json) {
-    if (json == null ||
-        !json.containsKey('access_token') ||
-        !json.containsKey('refresh_token') ||
-        !json.containsKey('user')) {
-      throw const ServerTroubleException();
-    }
+  factory AuthSignResponse.converter(dynamic json) {
+   
 
     return AuthSignResponse(
       accessToken: json['access_token'] as String,
       refreshToken: json['refresh_token'] as String,
-      user: User.fromJson(json['user'] as Map<String, dynamic>?),
+      user: User.converter(json['user'] as Map<String, dynamic>?),
     );
   }
 }

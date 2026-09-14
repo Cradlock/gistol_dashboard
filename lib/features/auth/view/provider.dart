@@ -1,6 +1,7 @@
 
 import 'package:gistol_dashboard/core/api/domain.dart';
 import 'package:gistol_dashboard/core/core.dart';
+import 'package:gistol_dashboard/entry/entry.dart';
 import 'package:gistol_dashboard/features/auth/domain/auth.dart';
 import 'package:gistol_dashboard/features/auth/domain/errors.dart';
 import 'package:gistol_dashboard/features/auth/domain/user.dart';
@@ -21,7 +22,6 @@ class AuthProvider extends ChangeNotifier{
   User? user;
 
   bool _isLoading = false;
-
   
   AppException? currentError;
     
@@ -38,36 +38,20 @@ class AuthProvider extends ChangeNotifier{
   
 
 
-  Future<bool> checkLoginStatus() async {
+  Future<void> checkLoginStatus() async {
     _isLoading = true;
+    currentError = null;
     notifyListeners();
 
-  
     try {
       final response = await _service.me();
-      
-      if (response.statusCode != 200 || response.data == null) {
-        if (response.statusCode == 0) {
-          currentError = NoConnectionException();
-        } 
-        
-        
-        _isLoading = false;
-        notifyListeners();
-        return false; // Ошибка — пользователя на логин!
-      }      
-
       user = response.data;
-      _isLoading = false;
-      notifyListeners();
-      return true;
     
-
-    } catch (e) {
-      debugPrint(e.toString()); 
+    } on AppException catch (e) {
+      currentError = e;
+    } finally {
       _isLoading = false;
       notifyListeners();
-      return false;
     }
 
   } 
@@ -90,11 +74,8 @@ class AuthProvider extends ChangeNotifier{
       final int statusCode = response.statusCode;
 
       switch (statusCode) {
-        case 0:
-          this.currentError = NoConnectionException();
         case 401:
-            this.currentError = InvalidSignDataException();
-        default:
+          currentError = InvalidSignDataException();
       } 
 
     }
