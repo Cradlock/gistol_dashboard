@@ -9,38 +9,35 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gistol_dashboard/entry/entry.dart';
 import 'package:gistol_dashboard/features/students/view/provider.dart';
 import 'package:gistol_dashboard/features/tasks/view/provider.dart';
+import 'package:gistol_dashboard/features/exams/view/provider.dart';
 
 void main() async {
-  
-
   WidgetsFlutterBinding.ensureInitialized();
-  
 
   await EasyLocalization.ensureInitialized();
-  
 
-  await dotenv.load(fileName: ".env");  
+  await dotenv.load(fileName: ".env");
 
   final apiClient = ApiClient();
-  apiClient.addInterceptor(AuthInterceptor()); 
+  apiClient.addInterceptor(AuthInterceptor());
 
   final settingsProvider = SettingsProvider();
   final authProvider = AuthProvider();
   final gropProvider = GroupProvider();
   final studentsProvider = StudentsProvider();
   final tasksProvider = TasksProvider();
+  final examsProvider = ExamsProvider();
 
   await settingsProvider.initSettings();
 
-  runApp( 
+  runApp(
     MainApp(
-      settingsProvider: settingsProvider, 
+      settingsProvider: settingsProvider,
       authProvider: authProvider,
       groupProvider: gropProvider,
       studentsProvider: studentsProvider,
       tasksProvider: tasksProvider,
-    )
+      examsProvider: examsProvider,
+    ),
   );
-} 
-
-
+}

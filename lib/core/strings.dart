@@ -4,6 +4,7 @@ class AppStrings {
   static const groups = GroupStrings();
   static const students = StudentsStrings();
   static const tasks = TaskStrings();
+  static const exams = ExamStrings();
   static const settings = SettingsStrings();
   static const navigation = NavigationStrings();
   static const errors = ErrorsStrings();
@@ -197,4 +198,60 @@ class TaskStrings {
   String get errorNotFound => _k("error_not_found");
   String get errorInvalid => _k("error_invalid");
   String get dateRangeInvalid => _k("date_range_invalid");
+}
+
+class ExamStrings {
+  const ExamStrings();
+
+  static const String _ns = 'exams.';
+  static String _k(String key) => '$_ns$key';
+
+  String get title => _k('title');
+  String get searchPlaceholder => _k('search_placeholder');
+  String get create => _k('create');
+  String get edit => _k('edit');
+  String get empty => _k('empty');
+  String get total => _k('total');
+  String get titleField => _k('title_field');
+  String get theme => _k('theme');
+  String get startAt => _k('start_at');
+  String get duration => _k('duration');
+  String get minutes => _k('minutes');
+  String get positiveNumber => _k('positive_number');
+  String get deleteQuestion => _k('delete_question');
+  String get targets => _k('targets');
+  String get addTarget => _k('add_target');
+  String get editTarget => _k('edit_target');
+  String get year => _k('year');
+  String get entireYear => _k('entire_year');
+  String get group => _k('group');
+  String get useEntireYear => _k('use_entire_year');
+  String get groupOptional => _k('group_optional');
+  String get questions => _k('questions');
+  String get addQuestion => _k('add_question');
+  String get editQuestion => _k('edit_question');
+  String get questionText => _k('question_text');
+  String get choice => _k('choice');
+  String get input => _k('input');
+  String get points => _k('points');
+  String get position => _k('position');
+  String get expectedAnswer => _k('expected_answer');
+  String get addChoice => _k('add_choice');
+  String get correctChoice => _k('correct_choice');
+  String get questionInvalid => _k('question_invalid');
+  String get sessions => _k('sessions');
+  String get session => _k('session');
+  String get user => _k('user');
+  String get status => _k('status');
+  String get score => _k('score');
+  String get started => _k('started');
+  String get submitted => _k('submitted');
+  String get reviewed => _k('reviewed');
+  String get awarded => _k('awarded');
+  String get autoGraded => _k('auto_graded');
+  String get accept => _k('accept');
+  String get reject => _k('reject');
+  String get errorNotFound => _k('error_not_found');
+  String get errorInvalid => _k('error_invalid');
+  String get errorConflict => _k('error_conflict');
 }

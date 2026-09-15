@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:gistol_dashboard/core/core.dart';
 import 'package:gistol_dashboard/entry/entry.dart';
 import 'package:gistol_dashboard/features/auth/auth.dart';
@@ -7,10 +6,9 @@ import 'package:gistol_dashboard/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:gistol_dashboard/features/students/view/provider.dart';
 import 'package:gistol_dashboard/features/tasks/view/provider.dart';
+import 'package:gistol_dashboard/features/exams/view/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart'; // Добавили импорт пакета
-
 
 class MainApp extends StatelessWidget {
   final SettingsProvider settingsProvider;
@@ -18,6 +16,7 @@ class MainApp extends StatelessWidget {
   final GroupProvider groupProvider;
   final StudentsProvider studentsProvider;
   final TasksProvider tasksProvider;
+  final ExamsProvider examsProvider;
 
   const MainApp({
     super.key,
@@ -26,6 +25,7 @@ class MainApp extends StatelessWidget {
     required this.groupProvider,
     required this.studentsProvider,
     required this.tasksProvider,
+    required this.examsProvider,
   });
 
   @override
@@ -40,11 +40,16 @@ class MainApp extends StatelessWidget {
           // 2. Внедряем глобальные провайдеры
           return MultiProvider(
             providers: [
-              ChangeNotifierProvider<SettingsProvider>.value(value: settingsProvider),
+              ChangeNotifierProvider<SettingsProvider>.value(
+                value: settingsProvider,
+              ),
               ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
               ChangeNotifierProvider<GroupProvider>.value(value: groupProvider),
-              ChangeNotifierProvider<StudentsProvider>.value(value: studentsProvider),
+              ChangeNotifierProvider<StudentsProvider>.value(
+                value: studentsProvider,
+              ),
               ChangeNotifierProvider<TasksProvider>.value(value: tasksProvider),
+              ChangeNotifierProvider<ExamsProvider>.value(value: examsProvider),
             ],
             // Передаем управление в ядро приложения
             child: const _MaterialAppCore(),
@@ -63,18 +68,15 @@ class _MaterialAppCore extends StatelessWidget {
   Widget build(BuildContext context) {
     // Читаем тему из настроек
     final settings = context.watch<SettingsProvider>();
-    
+
     return MaterialApp.router(
-          
-          routerConfig: AppRouter.router,
-          debugShowCheckedModeBanner: false,
-          theme: settings.isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          themeMode: settings.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      routerConfig: AppRouter.router,
+      debugShowCheckedModeBanner: false,
+      theme: settings.isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      themeMode: settings.isDarkMode ? ThemeMode.dark : ThemeMode.light,
     );
   }
-
-
 }
