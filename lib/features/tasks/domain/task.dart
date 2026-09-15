@@ -19,6 +19,7 @@ enum AnswerStatus {
 class SituationTask {
   final int id;
   final String title;
+  final String content;
   final int groupId;
   final DateTime startAt;
   final DateTime endAt;
@@ -27,6 +28,7 @@ class SituationTask {
   SituationTask({
     required this.id,
     required this.title,
+    required this.content,
     required this.groupId,
     required this.startAt,
     required this.endAt,
@@ -38,6 +40,7 @@ class SituationTask {
     return SituationTask(
       id: data['id'] as int,
       title: data['title'] as String,
+      content: data['content'] as String,
       groupId: data['group_id'] as int,
       startAt: DateTime.parse(data['start_at'] as String),
       endAt: DateTime.parse(data['end_at'] as String),
@@ -109,6 +112,7 @@ class AnswerListResponse {
 
 class TaskWriteRequest implements ToJsonable {
   final String title;
+  final String content;
   final int groupId;
   final DateTime startAt;
   final DateTime endAt;
@@ -116,6 +120,7 @@ class TaskWriteRequest implements ToJsonable {
 
   TaskWriteRequest({
     required this.title,
+    required this.content,
     required this.groupId,
     required this.startAt,
     required this.endAt,
@@ -126,6 +131,7 @@ class TaskWriteRequest implements ToJsonable {
   Map<String, dynamic> toJson() {
     return {
       'title': title,
+      'content': content,
       'group_id': groupId,
       'start_at': startAt.toUtc().toIso8601String(),
       'end_at': endAt.toUtc().toIso8601String(),

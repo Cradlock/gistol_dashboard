@@ -73,15 +73,26 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(AppStrings.tasks.details.tr(), style: theme.textTheme.titleLarge),
+              Text(
+                AppStrings.tasks.details.tr(),
+                style: theme.textTheme.titleLarge,
+              ),
               const SizedBox(height: 12),
               Text(task.title, style: theme.textTheme.bodyLarge),
+              const SizedBox(height: 6),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 110),
+                child: SingleChildScrollView(child: Text(task.content)),
+              ),
               const SizedBox(height: 8),
               Text('${AppStrings.tasks.group.tr()}: ${_groupTitle(groups)}'),
               Text('${AppStrings.tasks.points.tr()}: ${task.points}'),
               Text(range, style: theme.textTheme.bodySmall),
               const SizedBox(height: 16),
-              Text(AppStrings.tasks.answers.tr(), style: theme.textTheme.titleMedium),
+              Text(
+                AppStrings.tasks.answers.tr(),
+                style: theme.textTheme.titleMedium,
+              ),
               const SizedBox(height: 8),
               Expanded(
                 child: LoaderWrapper(
@@ -90,7 +101,9 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
                     valueListenable: tasksProvider.answers,
                     builder: (context, answers, child) {
                       if (answers.isEmpty) {
-                        return Center(child: Text(AppStrings.tasks.answersEmpty.tr()));
+                        return Center(
+                          child: Text(AppStrings.tasks.answersEmpty.tr()),
+                        );
                       }
                       return ListView.separated(
                         itemCount: answers.length,
@@ -108,7 +121,8 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
                               children: [
                                 IconButton(
                                   tooltip: AppStrings.tasks.gradePending.tr(),
-                                  onPressed: () => _grade(answer.id, AnswerStatus.pending),
+                                  onPressed: () =>
+                                      _grade(answer.id, AnswerStatus.pending),
                                   icon: Icon(
                                     Icons.hourglass_empty,
                                     color: answer.status == AnswerStatus.pending
@@ -118,20 +132,24 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
                                 ),
                                 IconButton(
                                   tooltip: AppStrings.tasks.gradePositive.tr(),
-                                  onPressed: () => _grade(answer.id, AnswerStatus.positive),
+                                  onPressed: () =>
+                                      _grade(answer.id, AnswerStatus.positive),
                                   icon: Icon(
                                     Icons.check_circle_outline,
-                                    color: answer.status == AnswerStatus.positive
+                                    color:
+                                        answer.status == AnswerStatus.positive
                                         ? Colors.green
                                         : null,
                                   ),
                                 ),
                                 IconButton(
                                   tooltip: AppStrings.tasks.gradeNegative.tr(),
-                                  onPressed: () => _grade(answer.id, AnswerStatus.negative),
+                                  onPressed: () =>
+                                      _grade(answer.id, AnswerStatus.negative),
                                   icon: Icon(
                                     Icons.cancel_outlined,
-                                    color: answer.status == AnswerStatus.negative
+                                    color:
+                                        answer.status == AnswerStatus.negative
                                         ? theme.colorScheme.error
                                         : null,
                                   ),

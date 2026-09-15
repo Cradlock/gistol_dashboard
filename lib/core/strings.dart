@@ -1,5 +1,3 @@
-
-
 class AppStrings {
   static const common = CommonStrings();
   static const auth = AuthStrings();
@@ -15,7 +13,7 @@ class CommonStrings {
   const CommonStrings();
 
   static const String _ns = "common.";
-  
+
   // Вспомогательный метод для склейки
   static String _k(String key) => "$_ns$key";
 
@@ -23,50 +21,48 @@ class CommonStrings {
   String get cancel => _k("cancel");
   String get yes => _k("yes");
   String get ok => _k("ok");
-  String get exit => _k("exit"); 
-  String get save => _k("save"); 
+  String get exit => _k("exit");
+  String get save => _k("save");
   String get create => _k("create");
   String get retry => _k("retry");
   String get errorBlankInput => _k("error_blank_input");
-  
+
   String get from => _k("from");
   String get to => _k("to");
 
   String get error_no_internet => _k("error_no_internet");
   String get error_server_error => _k("error_server_error");
   String get error_timeout => _k("error_timeout");
-  
 }
 
 class SettingsStrings {
   const SettingsStrings();
 
   static const String _ns = "settings.";
-  
+
   // Вспомогательный метод для склейки
   static String _k(String key) => "$_ns$key";
-  
+
   String get darkmode => _k("darkmode");
   String get langmode => _k("langmode");
   String get title => _k("title");
- 
 }
 
 class AuthStrings {
   const AuthStrings();
 
   static const String _ns = "auth.";
-  
+
   // Вспомогательный метод для склейки
   static String _k(String key) => "$_ns$key";
 
-  String get error_incorrect_password_or_code => _k("error_incorrect_password_or_code");
+  String get error_incorrect_password_or_code =>
+      _k("error_incorrect_password_or_code");
   String get usernameLabel => _k("username_label");
   String get usernameHint => _k("username_hint_text");
   String get passwordLabel => _k("password_label");
   String get passwordHint => _k("password_hint_text");
   String get loginBtn => _k("login_btn");
- 
 }
 
 class NavigationStrings {
@@ -93,7 +89,7 @@ class GroupStrings {
   const GroupStrings();
 
   static const String _ns = "groups.";
-  
+
   // Вспомогательный метод для склейки
 
   static String _k(String key) => "$_ns$key";
@@ -103,10 +99,10 @@ class GroupStrings {
   String get sort => _k("sort");
   String get resetSort => _k("reset_sort");
   String get resetFilters => _k("reset_filters");
-  
+
   String get minToMax => _k("min_to_max");
   String get maxToMin => _k("max_to_min");
-  
+
   String get sortOrder => _k("sort_order");
   String get sortField => _k("sort_field");
 
@@ -114,7 +110,7 @@ class GroupStrings {
   String get sortFieldDate => _k("sort_field_date");
   String get sortFieldStudents => _k("sort_field_students");
   String get sortFieldTitle => _k("sort_field_title");
-  
+
   String get addPlaceholderTitle => _k("add_placeholder_title");
   String get addPlaceholderCourse => _k("add_placeholder_course");
   String get searchPlaceholder => _k("search_placeholder");
@@ -124,25 +120,22 @@ class GroupStrings {
   String get created => _k("created");
   String get notSelected => _k("not_selected");
   String get deleteQuestion => _k("delete_question");
-  
+
   String get filterCourseRangeLabel => _k("filterCourseRangeLabel");
   String get filterDateRangeLabel => _k("filterDateRangeLabel");
-  String get filterStudentsCountRangeLabel => _k("filterStudentsCountRangeLabel");
-  
-  
-
+  String get filterStudentsCountRangeLabel =>
+      _k("filterStudentsCountRangeLabel");
 }
-
 
 class StudentsStrings {
   const StudentsStrings();
 
   static const String _ns = "students.";
-  
+
   static String _k(String key) => "$_ns$key";
-  
+
   String get title => _k("title");
-  
+
   String get year_sort_label => _k("year_sort_label");
   String get scores_sort_label => _k("scores_sort_label");
   String get error_student_not_found => _k("error_student_not_found");
@@ -169,7 +162,6 @@ class StudentsStrings {
   String get confirmQuestion => _k("confirm_question");
   String get unconfirmQuestion => _k("unconfirm_question");
   String get recoveryQuestion => _k("recovery_question");
-
 }
 
 class TaskStrings {
@@ -185,6 +177,7 @@ class TaskStrings {
   String get notSelected => _k("not_selected");
   String get deleteQuestion => _k("delete_question");
   String get addPlaceholderTitle => _k("add_placeholder_title");
+  String get addPlaceholderContent => _k("add_placeholder_content");
   String get addPlaceholderGroup => _k("add_placeholder_group");
   String get addPlaceholderPoints => _k("add_placeholder_points");
   String get startAt => _k("start_at");
@@ -205,4 +198,3 @@ class TaskStrings {
   String get errorInvalid => _k("error_invalid");
   String get dateRangeInvalid => _k("date_range_invalid");
 }
-

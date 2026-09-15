@@ -37,10 +37,13 @@ class TaskTile extends StatelessWidget {
           ),
           title: Text(task.title, style: theme.textTheme.bodyLarge),
           subtitle: Text(
+            '${task.content}\n'
             '$groupTitle • ${task.points} ${AppStrings.tasks.points.tr()}\n$range',
             style: theme.textTheme.bodySmall?.copyWith(
               color: theme.colorScheme.outline,
             ),
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
           ),
           isThreeLine: true,
           trailing: const Icon(Icons.chevron_right),

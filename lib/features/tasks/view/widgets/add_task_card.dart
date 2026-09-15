@@ -16,10 +16,12 @@ class AddTaskCard extends StatefulWidget {
 
 class _AddTaskCardState extends State<AddTaskCard> {
   final _titleController = TextEditingController();
+  final _contentController = TextEditingController();
   final _pointsController = TextEditingController(text: '1');
   final _startController = TextEditingController();
   final _endController = TextEditingController();
   int? _selectedGroupId;
+  Group? _selectedGroup;
   DateTime? _startAt;
   DateTime? _endAt;
   bool _isSubmitted = false;
@@ -27,6 +29,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
   @override
   void dispose() {
     _titleController.dispose();
+    _contentController.dispose();
     _pointsController.dispose();
     _startController.dispose();
     _endController.dispose();
@@ -44,6 +47,14 @@ class _AddTaskCardState extends State<AddTaskCard> {
   String? get _groupError {
     if (!_isSubmitted) return null;
     if (_selectedGroupId == null) {
+      return AppStrings.common.errorBlankInput.tr();
+    }
+    return null;
+  }
+
+  String? get _contentError {
+    if (!_isSubmitted) return null;
+    if (_contentController.text.trim().isEmpty) {
       return AppStrings.common.errorBlankInput.tr();
     }
     return null;
@@ -93,6 +104,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
   Future<void> _submit(BuildContext context) async {
     setState(() => _isSubmitted = true);
     if (_titleError != null ||
+        _contentError != null ||
         _groupError != null ||
         _pointsError != null ||
         _dateError != null) {
@@ -104,6 +116,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
       await provider.addTask(
         TaskWriteRequest(
           title: _titleController.text.trim(),
+          content: _contentController.text.trim(),
           groupId: _selectedGroupId!,
           startAt: _startAt!,
           endAt: _endAt!,
@@ -120,7 +133,6 @@ class _AddTaskCardState extends State<AddTaskCard> {
   @override
   Widget build(BuildContext context) {
     final tasksProvider = context.watch<TasksProvider>();
-    final groups = context.watch<GroupProvider>().groups.value;
 
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
@@ -144,18 +156,23 @@ class _AddTaskCardState extends State<AddTaskCard> {
                 onChanged: (_) => setState(() {}),
               ),
               const SizedBox(height: 16),
-              AppDropdown<int>(
-                items: groups.map((group) => group.id).toList(),
-                value: _selectedGroupId,
-                itemAsString: (id) {
-                  for (final group in groups) {
-                    if (group.id == id) return group.title;
-                  }
-                  return '$id';
-                },
+              AppInput(
+                controller: _contentController,
+                placeholder: AppStrings.tasks.addPlaceholderContent.tr(),
+                errorText: _contentError,
+                maxLines: 5,
+                formatters: [LengthLimitingTextInputFormatter(4000)],
+                onChanged: (_) => setState(() {}),
+              ),
+              const SizedBox(height: 16),
+              GroupPickerField(
+                value: _selectedGroup,
                 placeholder: AppStrings.tasks.addPlaceholderGroup.tr(),
                 errorText: _groupError,
-                onChanged: (value) => setState(() => _selectedGroupId = value),
+                onChanged: (value) => setState(() {
+                  _selectedGroup = value;
+                  _selectedGroupId = value?.id;
+                }),
               ),
               const SizedBox(height: 16),
               AppInput(

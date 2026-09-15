@@ -99,6 +99,7 @@
     "not_selected": "Ничего не выбрано",
     "delete_question": "Удалить выбранные задачи?",
     "add_placeholder_title": "Название задачи",
+    "add_placeholder_content": "Текст задания",
     "add_placeholder_group": "Группа",
     "add_placeholder_points": "Баллы",
     "start_at": "Начало",

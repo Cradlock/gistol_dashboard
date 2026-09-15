@@ -99,6 +99,7 @@
     "not_selected": "Nothing selected",
     "delete_question": "Delete selected tasks?",
     "add_placeholder_title": "Task title",
+    "add_placeholder_content": "Task content",
     "add_placeholder_group": "Group",
     "add_placeholder_points": "Points",
     "start_at": "Start",
