@@ -7,6 +7,7 @@ class AppStrings {
   static const exams = ExamStrings();
   static const settings = SettingsStrings();
   static const navigation = NavigationStrings();
+  static const home = HomeStrings();
   static const errors = ErrorsStrings();
 }
 
@@ -74,6 +75,24 @@ class NavigationStrings {
 
   String get menu => _k("menu");
   String get home => _k("home");
+}
+
+class HomeStrings {
+  const HomeStrings();
+
+  static const String _ns = "home.";
+  static String _k(String key) => "$_ns$key";
+
+  String get title => _k("title");
+  String get welcome => _k("welcome");
+  String get welcomeNamed => _k("welcome_named");
+  String get subtitle => _k("subtitle");
+  String get open => _k("open");
+  String get groupsDesc => _k("groups_desc");
+  String get studentsDesc => _k("students_desc");
+  String get tasksDesc => _k("tasks_desc");
+  String get examsDesc => _k("exams_desc");
+  String get settingsDesc => _k("settings_desc");
 }
 
 class ErrorsStrings {

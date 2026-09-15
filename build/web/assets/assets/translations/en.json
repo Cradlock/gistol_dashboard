@@ -26,6 +26,18 @@
     "menu": "Menu",
     "home": "Home"
   },
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome",
+    "welcome_named": "Welcome, {}",
+    "subtitle": "Manage groups, students, tasks, and exams from one place.",
+    "open": "Open",
+    "groups_desc": "Create study groups and assign years.",
+    "students_desc": "Confirm students, edit profiles, and track scores.",
+    "tasks_desc": "Assign situational tasks and review answers.",
+    "exams_desc": "Build exams, set targets, and add questions.",
+    "settings_desc": "Switch theme and language."
+  },
   "errors": {
     "network": {
       "no_internet_label": "No internet",
