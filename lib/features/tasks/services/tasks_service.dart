@@ -10,7 +10,7 @@ class TasksService {
       'task/',
       converter: TaskListResponse.converter,
       queryParameters: {
-        ?'group_id': groupId,
+        if (groupId != null) 'group_id': groupId,
       },
     );
   }

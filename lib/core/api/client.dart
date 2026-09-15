@@ -106,6 +106,15 @@ Future<WrResponse<T>> _guardRequest<T>(
   }
 
 
+  Map<String, dynamic>? _cleanQuery(Map<String, dynamic>? query) {
+    if (query == null) return null;
+    return {
+      for (final entry in query.entries)
+        if (entry.value != null && '${entry.value}'.isNotEmpty)
+          entry.key: entry.value,
+    };
+  }
+
   Future<WrResponse<T>> get<T>(
     String path,{
       required Converter<T> converter,
@@ -114,7 +123,7 @@ Future<WrResponse<T>> _guardRequest<T>(
     }) async  {
       return _guardRequest(
         path,
-        () => _dio.get<Map<String, dynamic>>(path, queryParameters: queryParameters, options: options),
+        () => _dio.get<Map<String, dynamic>>(path, queryParameters: _cleanQuery(queryParameters), options: options),
         converter,
       );   
   }
@@ -167,7 +176,7 @@ Future<WrResponse<T>> _guardRequest<T>(
   }) {
     return _guardRequest(
       path,
-      () => _dio.delete<Map<String, dynamic>>(path, queryParameters: queryParameters, data: _formatData(data), options: options),
+      () => _dio.delete<Map<String, dynamic>>(path, queryParameters: _cleanQuery(queryParameters), data: _formatData(data), options: options),
       converter,
     );
   }

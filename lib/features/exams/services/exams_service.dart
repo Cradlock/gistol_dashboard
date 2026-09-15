@@ -18,7 +18,7 @@ class ExamsService {
       'page': page,
       'page_size': pageSize,
       if (search != null && search.trim().isNotEmpty) 'search': search.trim(),
-      ?'group_id': groupId,
+      if (groupId != null) 'group_id': groupId,
     },
   );
 
