@@ -26,6 +26,7 @@ class _EditStudentCardState extends State<EditStudentCard> {
 
   int? _selectedYear;
   int? _selectedGroupId;
+  Group? _selectedGroup;
   bool _isSubmitted = false;
   bool _isLoading = false;
 
@@ -38,6 +39,7 @@ class _EditStudentCardState extends State<EditStudentCard> {
     _scoresController.text = student.scores.toString();
     _selectedYear = student.year;
     _selectedGroupId = student.group?.id;
+    _selectedGroup = student.group;
   }
 
   @override
@@ -86,22 +88,6 @@ class _EditStudentCardState extends State<EditStudentCard> {
       return AppStrings.common.errorBlankInput.tr();
     }
     return null;
-  }
-
-  List<Group> _groupsForYear(List<Group> groups) {
-    final year = _selectedYear;
-    final filtered = year == null
-        ? groups
-        : groups.where((group) => group.year == year).toList();
-
-    final current = widget.student.group;
-    if (current != null &&
-        (year == null || current.year == year) &&
-        !filtered.any((group) => group.id == current.id)) {
-      filtered.insert(0, current);
-    }
-
-    return filtered;
   }
 
   List<int> _years(GroupProvider groupProvider) {
@@ -167,23 +153,46 @@ class _EditStudentCardState extends State<EditStudentCard> {
         padding: const EdgeInsets.all(20),
         child: ValueListenableBuilder<List<Group>>(
           valueListenable: groupProvider.groups,
-          builder: (context, groups, _) {
-            final groupsForYear = _groupsForYear(groups);
-            Group? selectedGroup;
-            for (final group in groupsForYear) {
-              if (group.id == _selectedGroupId) {
-                selectedGroup = group;
-                break;
-              }
-            }
-
+          builder: (context, _, __) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  formatDate(context, DateTime.now()),
-                  style: Theme.of(context).textTheme.labelMedium,
+                Row(
+                  children: [
+                    CircleAvatar(
+                      child: Text(
+                        (widget.student.name?.trim().isNotEmpty ?? false)
+                            ? widget.student.name!.trim()[0].toUpperCase()
+                            : '?',
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            [
+                              widget.student.surname,
+                              widget.student.name,
+                            ]
+                                .where(
+                                  (part) =>
+                                      part != null && part.trim().isNotEmpty,
+                                )
+                                .join(' '),
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          Text(
+                            'ID: ${widget.student.id} · '
+                            '${widget.student.group?.title ?? '—'}',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 16),
                 AppInput(
@@ -219,24 +228,24 @@ class _EditStudentCardState extends State<EditStudentCard> {
                   onChanged: (value) {
                     setState(() {
                       _selectedYear = value;
-                      final stillValid = _groupsForYear(groups)
-                          .any((group) => group.id == _selectedGroupId);
-                      if (!stillValid) {
+                      if (_selectedGroup?.year != value) {
                         _selectedGroupId = null;
+                        _selectedGroup = null;
                       }
                     });
                   },
                 ),
                 const SizedBox(height: 16),
-                AppDropdown<Group>(
-                  items: groupsForYear,
-                  value: selectedGroup,
-                  itemAsString: (group) => group.title,
+                GroupPickerField(
+                  value: _selectedGroup,
+                  year: _selectedYear,
                   placeholder: AppStrings.students.editPlaceholderGroup.tr(),
                   errorText: _groupError,
                   onChanged: (value) {
                     setState(() {
                       _selectedGroupId = value?.id;
+                      _selectedGroup = value;
+                      if (value != null) _selectedYear = value.year;
                     });
                   },
                 ),

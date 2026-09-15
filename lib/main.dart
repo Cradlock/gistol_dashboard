@@ -8,6 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:gistol_dashboard/entry/entry.dart';
 import 'package:gistol_dashboard/features/students/view/provider.dart';
+import 'package:gistol_dashboard/features/tasks/view/provider.dart';
 
 void main() async {
   
@@ -27,6 +28,7 @@ void main() async {
   final authProvider = AuthProvider();
   final gropProvider = GroupProvider();
   final studentsProvider = StudentsProvider();
+  final tasksProvider = TasksProvider();
 
   await settingsProvider.initSettings();
 
@@ -36,6 +38,7 @@ void main() async {
       authProvider: authProvider,
       groupProvider: gropProvider,
       studentsProvider: studentsProvider,
+      tasksProvider: tasksProvider,
     )
   );
 } 

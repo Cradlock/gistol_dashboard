@@ -60,7 +60,6 @@ class AppInput extends StatelessWidget {
       ),
     );
     
-    controller?.text = initialValue ?? "";
     Widget inputField = TextField(
       controller: controller,
       onChanged: onChanged,

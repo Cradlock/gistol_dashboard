@@ -35,7 +35,13 @@ class Mainlayout extends StatelessWidget{
     label: AppStrings.students.title, 
     icon: Icons.school, 
     selectedIcon: Icons.school_outlined 
-  )
+  ),
+  NavItem(
+    path: "/tasks",
+    label: AppStrings.tasks.title,
+    icon: Icons.assignment,
+    selectedIcon: Icons.assignment_outlined,
+  ),
 ];
 
   final Widget child;

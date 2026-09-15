@@ -15,7 +15,7 @@ enum SortOrder {
 enum SortField {
   date('date'),
   studentsCount('student_count'),
-  groupTitle('group_title');
+  groupTitle('title');
   
   final String value;
   const SortField(this.value);

@@ -6,6 +6,7 @@ import 'package:gistol_dashboard/features/groups/groups.dart';
 import 'package:gistol_dashboard/features/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:gistol_dashboard/features/students/view/provider.dart';
+import 'package:gistol_dashboard/features/tasks/view/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart'; // Добавили импорт пакета
@@ -16,13 +17,15 @@ class MainApp extends StatelessWidget {
   final AuthProvider authProvider;
   final GroupProvider groupProvider;
   final StudentsProvider studentsProvider;
+  final TasksProvider tasksProvider;
 
   const MainApp({
     super.key,
     required this.settingsProvider,
     required this.authProvider,
     required this.groupProvider,
-    required this.studentsProvider
+    required this.studentsProvider,
+    required this.tasksProvider,
   });
 
   @override
@@ -40,7 +43,8 @@ class MainApp extends StatelessWidget {
               ChangeNotifierProvider<SettingsProvider>.value(value: settingsProvider),
               ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
               ChangeNotifierProvider<GroupProvider>.value(value: groupProvider),
-              ChangeNotifierProvider<StudentsProvider>.value(value: studentsProvider)
+              ChangeNotifierProvider<StudentsProvider>.value(value: studentsProvider),
+              ChangeNotifierProvider<TasksProvider>.value(value: tasksProvider),
             ],
             // Передаем управление в ядро приложения
             child: const _MaterialAppCore(),

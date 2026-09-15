@@ -5,6 +5,7 @@ class AppStrings {
   static const auth = AuthStrings();
   static const groups = GroupStrings();
   static const students = StudentsStrings();
+  static const tasks = TaskStrings();
   static const settings = SettingsStrings();
   static const navigation = NavigationStrings();
   static const errors = ErrorsStrings();
@@ -117,6 +118,8 @@ class GroupStrings {
   String get addPlaceholderTitle => _k("add_placeholder_title");
   String get addPlaceholderCourse => _k("add_placeholder_course");
   String get searchPlaceholder => _k("search_placeholder");
+  String get selectGroup => _k("select_group");
+  String get empty => _k("empty");
   String get course => _k("course");
   String get created => _k("created");
   String get notSelected => _k("not_selected");
@@ -167,5 +170,39 @@ class StudentsStrings {
   String get unconfirmQuestion => _k("unconfirm_question");
   String get recoveryQuestion => _k("recovery_question");
 
+}
+
+class TaskStrings {
+  const TaskStrings();
+
+  static const String _ns = "tasks.";
+  static String _k(String key) => "$_ns$key";
+
+  String get title => _k("title");
+  String get searchPlaceholder => _k("search_placeholder");
+  String get filterGroup => _k("filter_group");
+  String get allGroups => _k("all_groups");
+  String get notSelected => _k("not_selected");
+  String get deleteQuestion => _k("delete_question");
+  String get addPlaceholderTitle => _k("add_placeholder_title");
+  String get addPlaceholderGroup => _k("add_placeholder_group");
+  String get addPlaceholderPoints => _k("add_placeholder_points");
+  String get startAt => _k("start_at");
+  String get endAt => _k("end_at");
+  String get points => _k("points");
+  String get group => _k("group");
+  String get details => _k("details");
+  String get answers => _k("answers");
+  String get answersEmpty => _k("answers_empty");
+  String get student => _k("student");
+  String get statusPending => _k("status_pending");
+  String get statusPositive => _k("status_positive");
+  String get statusNegative => _k("status_negative");
+  String get gradePositive => _k("grade_positive");
+  String get gradeNegative => _k("grade_negative");
+  String get gradePending => _k("grade_pending");
+  String get errorNotFound => _k("error_not_found");
+  String get errorInvalid => _k("error_invalid");
+  String get dateRangeInvalid => _k("date_range_invalid");
 }
 

@@ -11,6 +11,7 @@ import 'package:gistol_dashboard/features/legal/screens/policy_screen.dart';
 import 'package:gistol_dashboard/features/legal/screens/service_screen.dart';
 import 'package:gistol_dashboard/features/settings/screens/settings_screen.dart';
 import 'package:gistol_dashboard/features/students/screens/students_main_screen.dart';
+import 'package:gistol_dashboard/features/tasks/screens/tasks_screen.dart';
 import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -30,7 +31,8 @@ class AppRouter {
           GoRoute(path: '/home', builder: (context,state) => const HomeScreen()),
           GoRoute(path: '/settings',builder: (context,state) => const SettingsScreen()),
           GoRoute(path: '/groups',  builder: (context,state) => GroupScreen()),
-          GoRoute(path: '/students',  builder: (context,state) => StudentsScreen())
+          GoRoute(path: '/students',  builder: (context,state) => StudentsScreen()),
+          GoRoute(path: '/tasks', builder: (context,state) => const TasksScreen()),
        ]
       ),
 
