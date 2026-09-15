@@ -140,6 +140,7 @@ class StudentsStrings {
   String get year_sort_label => _k("year_sort_label");
   String get scores_sort_label => _k("scores_sort_label");
   String get error_student_not_found => _k("error_student_not_found");
+  String get errorInvalidUpdate => _k("error_invalid_update");
 
   String get editPlaceholderName => _k("edit_placeholder_name");
   String get editPlaceholderSurname => _k("edit_placeholder_surname");
@@ -208,6 +209,8 @@ class ExamStrings {
 
   String get title => _k('title');
   String get searchPlaceholder => _k('search_placeholder');
+  String get filterGroup => _k('filter_group');
+  String get notSelected => _k('not_selected');
   String get create => _k('create');
   String get edit => _k('edit');
   String get empty => _k('empty');
@@ -219,6 +222,7 @@ class ExamStrings {
   String get minutes => _k('minutes');
   String get positiveNumber => _k('positive_number');
   String get deleteQuestion => _k('delete_question');
+  String get deleteSelected => _k('delete_selected');
   String get targets => _k('targets');
   String get addTarget => _k('add_target');
   String get editTarget => _k('edit_target');
@@ -239,18 +243,6 @@ class ExamStrings {
   String get addChoice => _k('add_choice');
   String get correctChoice => _k('correct_choice');
   String get questionInvalid => _k('question_invalid');
-  String get sessions => _k('sessions');
-  String get session => _k('session');
-  String get user => _k('user');
-  String get status => _k('status');
-  String get score => _k('score');
-  String get started => _k('started');
-  String get submitted => _k('submitted');
-  String get reviewed => _k('reviewed');
-  String get awarded => _k('awarded');
-  String get autoGraded => _k('auto_graded');
-  String get accept => _k('accept');
-  String get reject => _k('reject');
   String get errorNotFound => _k('error_not_found');
   String get errorInvalid => _k('error_invalid');
   String get errorConflict => _k('error_conflict');

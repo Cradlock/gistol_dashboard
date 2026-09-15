@@ -10,6 +10,7 @@ class ExamsService {
     required int page,
     required int pageSize,
     String? search,
+    int? groupId,
   }) => _api.get(
     'exams/',
     converter: ExamListResponse.converter,
@@ -17,6 +18,7 @@ class ExamsService {
       'page': page,
       'page_size': pageSize,
       if (search != null && search.trim().isNotEmpty) 'search': search.trim(),
+      ?'group_id': groupId,
     },
   );
 
@@ -75,26 +77,6 @@ class ExamsService {
 
   Future<WrResponse<bool>> deleteQuestion(int examId, int questionId) => _api
       .delete('exams/$examId/questions/$questionId', converter: (_) => true);
-
-  Future<WrResponse<SessionListResponse>> getSessions(int examId) => _api.get(
-    'exams/$examId/sessions',
-    converter: SessionListResponse.converter,
-  );
-
-  Future<WrResponse<TeacherSession>> getSession(int sessionId) => _api.get(
-    'exams/sessions/$sessionId',
-    converter: TeacherSession.converter,
-  );
-
-  Future<WrResponse<TeacherSession>> reviewAnswer(
-    int sessionId,
-    int answerId,
-    bool accepted,
-  ) => _api.patch(
-    'exams/sessions/$sessionId/answers/$answerId',
-    converter: TeacherSession.converter,
-    data: AnswerReviewRequest(accepted: accepted),
-  );
 
   void ensureSuccess(WrResponse<dynamic> response) {
     if (response.isSuccess) return;

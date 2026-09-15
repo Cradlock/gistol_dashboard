@@ -5,6 +5,7 @@ class AppDropdownInput<T extends Object> extends StatelessWidget {
   final List<T> items;
   final String Function(T item) itemAsString;
   final ValueChanged<T?> onChanged;
+  final String? label;
   final String? placeholder;
   final String? errorText;
 
@@ -13,6 +14,7 @@ class AppDropdownInput<T extends Object> extends StatelessWidget {
     required this.items,
     required this.itemAsString,
     required this.onChanged,
+    this.label,
     this.placeholder,
     this.errorText,
   });
@@ -22,15 +24,14 @@ class AppDropdownInput<T extends Object> extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Autocomplete<T>(
-      
       optionsBuilder: (TextEditingValue textEditingValue) {
         if (textEditingValue.text.isEmpty) {
           return items;
         }
         return items.where((item) {
-          return itemAsString(item)
-              .toLowerCase()
-              .contains(textEditingValue.text.toLowerCase());
+          return itemAsString(
+            item,
+          ).toLowerCase().contains(textEditingValue.text.toLowerCase());
         });
       },
       displayStringForOption: itemAsString,
@@ -42,6 +43,7 @@ class AppDropdownInput<T extends Object> extends StatelessWidget {
         return AppInput(
           controller: controller,
           focusNode: focusNode,
+          label: label,
           placeholder: placeholder,
           errorText: errorText,
           suffixIcon: const Icon(Icons.arrow_drop_down),

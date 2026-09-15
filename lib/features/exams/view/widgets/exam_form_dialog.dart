@@ -125,6 +125,7 @@ class _ExamFormDialogState extends State<ExamFormDialog> {
             const SizedBox(height: 16),
             AppInput(
               controller: _title,
+              label: AppStrings.exams.titleField.tr(),
               placeholder: AppStrings.exams.titleField.tr(),
               errorText: _required(_title.text),
               onChanged: (_) => setState(() {}),
@@ -132,6 +133,7 @@ class _ExamFormDialogState extends State<ExamFormDialog> {
             const SizedBox(height: 12),
             AppInput(
               controller: _theme,
+              label: AppStrings.exams.theme.tr(),
               placeholder: AppStrings.exams.theme.tr(),
               maxLines: 3,
               errorText: _required(_theme.text),
@@ -140,12 +142,14 @@ class _ExamFormDialogState extends State<ExamFormDialog> {
             const SizedBox(height: 12),
             AppInput(
               controller: _start,
+              label: AppStrings.exams.startAt.tr(),
               placeholder: AppStrings.exams.startAt.tr(),
               onTap: _pickStart,
             ),
             const SizedBox(height: 12),
             AppInput(
               controller: _duration,
+              label: AppStrings.exams.duration.tr(),
               placeholder: AppStrings.exams.duration.tr(),
               keyboardType: TextInputType.number,
               formatters: [FilteringTextInputFormatter.digitsOnly],

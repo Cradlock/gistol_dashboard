@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppInput extends StatelessWidget {
+  final String? label;
   final String? placeholder;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
@@ -27,6 +28,7 @@ class AppInput extends StatelessWidget {
     super.key,
     this.keyboardType = TextInputType.text,
     this.initialValue,
+    this.label,
     this.placeholder,
     this.controller,
     this.formatters,
@@ -73,6 +75,7 @@ class AppInput extends StatelessWidget {
       focusNode: focusNode,
       style: TextStyle(fontSize: fontSize ?? 14.0),
       decoration: InputDecoration(
+        labelText: label,
         hintText: placeholder,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,

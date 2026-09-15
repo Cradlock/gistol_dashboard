@@ -29,14 +29,12 @@ class _AddGroupCardState extends State<AddGroupCard> {
   final _nameController = TextEditingController();
   int? _selectedYear;
   bool _isSubmitted = false;
-  bool _isLoading = false; 
+  bool _isLoading = false;
 
   @override
-    void initState() {
-      super.initState();
-    }
-  
-  
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -48,7 +46,7 @@ class _AddGroupCardState extends State<AddGroupCard> {
   String? get _nameError {
     if (!_isSubmitted) return null;
     if (_nameController.text.trim().isEmpty) {
-      return AppStrings.common.errorBlankInput.tr(); 
+      return AppStrings.common.errorBlankInput.tr();
     }
     return null;
   }
@@ -56,7 +54,7 @@ class _AddGroupCardState extends State<AddGroupCard> {
   String? get _yearError {
     if (!_isSubmitted) return null;
     if (_selectedYear == null) {
-      return AppStrings.common.errorBlankInput.tr(); 
+      return AppStrings.common.errorBlankInput.tr();
     }
     return null;
   }
@@ -89,51 +87,55 @@ class _AddGroupCardState extends State<AddGroupCard> {
   Widget build(BuildContext context) {
     final groupProvider = context.watch<GroupProvider>();
     final years = groupProvider.years;
-   return 
-       Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                formatDate(context, DateTime.now()),
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-              const SizedBox(height: 16),
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              formatDate(context, DateTime.now()),
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+            const SizedBox(height: 16),
 
-              AppInput(
-                 formatters: [
-                 FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Zа-яА-ЯёЁ0-9\s-]')),
-                  _UpperCaseTextFormatter()
-                 ],
-                 controller: _nameController,
-                 placeholder: AppStrings.groups.addPlaceholderTitle.tr(),
-                 errorText: _nameError, // Подсветит поле красным и выведет текст ошибки
-                 onChanged: (_) => setState(() { }), // Убирает ошибку при вводе текста
-              ),
+            AppInput(
+              formatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp(r'[a-zA-Zа-яА-ЯёЁ0-9\s-]'),
+                ),
+                _UpperCaseTextFormatter(),
+              ],
+              controller: _nameController,
+              label: AppStrings.groups.addPlaceholderTitle.tr(),
+              placeholder: AppStrings.groups.addPlaceholderTitle.tr(),
+              errorText:
+                  _nameError, // Подсветит поле красным и выведет текст ошибки
+              onChanged: (_) =>
+                  setState(() {}), // Убирает ошибку при вводе текста
+            ),
 
-              const SizedBox(height: 16),
+            const SizedBox(height: 16),
 
-              AppDropdown<int>(
+            AppDropdown<int>(
               items: years,
-              itemAsString: (year) => year.toString(), 
+              itemAsString: (year) => year.toString(),
+              label: AppStrings.groups.addPlaceholderCourse.tr(),
               placeholder: AppStrings.groups.addPlaceholderCourse.tr(),
               errorText: _yearError,
               onChanged: (value) {
                 setState(() {
-                  _selectedYear = value;                  
+                  _selectedYear = value;
                 });
-              }
-              ),
-                
-              const SizedBox(height: 16),
-              
-              // Кнопки
-              
-              LoaderWrapper( 
+              },
+            ),
+
+            const SizedBox(height: 16),
+
+            // Кнопки
+            LoaderWrapper(
               loading: groupProvider.isOperationLoading,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -149,13 +151,11 @@ class _AddGroupCardState extends State<AddGroupCard> {
                     child: Text(AppStrings.common.create.tr()),
                   ),
                 ],
-              )
-              ) 
-
-
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
+      ),
     );
   }
 }

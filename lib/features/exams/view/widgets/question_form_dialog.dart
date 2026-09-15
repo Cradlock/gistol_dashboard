@@ -138,6 +138,7 @@ class _QuestionFormDialogState extends State<QuestionFormDialog> {
               const SizedBox(height: 12),
               AppInput(
                 controller: _text,
+                label: AppStrings.exams.questionText.tr(),
                 placeholder: AppStrings.exams.questionText.tr(),
                 maxLines: 3,
                 onChanged: (_) => setState(() {}),
@@ -148,6 +149,7 @@ class _QuestionFormDialogState extends State<QuestionFormDialog> {
                   Expanded(
                     child: AppInput(
                       controller: _points,
+                      label: AppStrings.exams.points.tr(),
                       placeholder: AppStrings.exams.points.tr(),
                       keyboardType: TextInputType.number,
                       formatters: [FilteringTextInputFormatter.digitsOnly],
@@ -158,6 +160,7 @@ class _QuestionFormDialogState extends State<QuestionFormDialog> {
                   Expanded(
                     child: AppInput(
                       controller: _position,
+                      label: AppStrings.exams.position.tr(),
                       placeholder: AppStrings.exams.position.tr(),
                       keyboardType: TextInputType.number,
                       formatters: [FilteringTextInputFormatter.digitsOnly],
@@ -170,6 +173,7 @@ class _QuestionFormDialogState extends State<QuestionFormDialog> {
               if (_type == QuestionType.input)
                 AppInput(
                   controller: _expected,
+                  label: AppStrings.exams.expectedAnswer.tr(),
                   placeholder: AppStrings.exams.expectedAnswer.tr(),
                   onChanged: (_) => setState(() {}),
                 )
@@ -191,6 +195,7 @@ class _QuestionFormDialogState extends State<QuestionFormDialog> {
                         Expanded(
                           child: AppInput(
                             controller: _choices[i],
+                            label: '${AppStrings.exams.choice.tr()} ${i + 1}',
                             placeholder:
                                 '${AppStrings.exams.choice.tr()} ${i + 1}',
                             onChanged: (_) => setState(() {}),

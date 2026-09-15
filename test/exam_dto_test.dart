@@ -58,37 +58,4 @@ void main() {
     });
     expect(target.toJson(), {'group_id': null, 'year': 2});
   });
-
-  test('teacher session converter keeps every answer field', () {
-    final session = TeacherSession.converter({
-      'id': 7,
-      'user_id': 11,
-      'exam_id': 2,
-      'exam_title': 'Midterm',
-      'exam_theme': 'Algebra',
-      'status': 'submitted',
-      'started_at': '2026-09-15T04:00:00Z',
-      'submitted_at': '2026-09-15T04:30:00Z',
-      'reviewed_at': null,
-      'score': null,
-      'answers': [
-        {
-          'id': 19,
-          'question_id': 4,
-          'question_text': 'Define x',
-          'question_type': 'input',
-          'question_points': 2,
-          'choice_id': null,
-          'choice_text': null,
-          'text': 'variable',
-          'awarded_points': null,
-          'reviewed_at': null,
-          'choices': <dynamic>[],
-        },
-      ],
-    });
-
-    expect(session.answers.single.text, 'variable');
-    expect(session.answers.single.awardedPoints, isNull);
-  });
 }

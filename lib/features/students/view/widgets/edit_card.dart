@@ -10,10 +10,7 @@ import 'package:provider/provider.dart';
 class EditStudentCard extends StatefulWidget {
   final Student student;
 
-  const EditStudentCard({
-    super.key,
-    required this.student,
-  });
+  const EditStudentCard({super.key, required this.student});
 
   @override
   State<EditStudentCard> createState() => _EditStudentCardState();
@@ -132,7 +129,7 @@ class _EditStudentCardState extends State<EditStudentCard> {
       Navigator.pop(context);
     } on AppException catch (e) {
       if (!context.mounted) return;
-      ErrorHandler.handle(e);
+      ErrorHandler.handle(e, context: context);
     } finally {
       if (mounted) {
         setState(() {
@@ -173,10 +170,7 @@ class _EditStudentCardState extends State<EditStudentCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            [
-                              widget.student.surname,
-                              widget.student.name,
-                            ]
+                            [widget.student.surname, widget.student.name]
                                 .where(
                                   (part) =>
                                       part != null && part.trim().isNotEmpty,
@@ -197,6 +191,7 @@ class _EditStudentCardState extends State<EditStudentCard> {
                 const SizedBox(height: 16),
                 AppInput(
                   controller: _surnameController,
+                  label: AppStrings.students.editPlaceholderSurname.tr(),
                   placeholder: AppStrings.students.editPlaceholderSurname.tr(),
                   errorText: _surnameError,
                   formatters: [
@@ -209,6 +204,7 @@ class _EditStudentCardState extends State<EditStudentCard> {
                 const SizedBox(height: 16),
                 AppInput(
                   controller: _nameController,
+                  label: AppStrings.students.editPlaceholderName.tr(),
                   placeholder: AppStrings.students.editPlaceholderName.tr(),
                   errorText: _nameError,
                   formatters: [
@@ -223,6 +219,7 @@ class _EditStudentCardState extends State<EditStudentCard> {
                   items: years,
                   value: _selectedYear,
                   itemAsString: (year) => year.toString(),
+                  label: AppStrings.students.editPlaceholderYear.tr(),
                   placeholder: AppStrings.students.editPlaceholderYear.tr(),
                   errorText: _yearError,
                   onChanged: (value) {
@@ -239,6 +236,7 @@ class _EditStudentCardState extends State<EditStudentCard> {
                 GroupPickerField(
                   value: _selectedGroup,
                   year: _selectedYear,
+                  label: AppStrings.students.editPlaceholderGroup.tr(),
                   placeholder: AppStrings.students.editPlaceholderGroup.tr(),
                   errorText: _groupError,
                   onChanged: (value) {
@@ -252,6 +250,7 @@ class _EditStudentCardState extends State<EditStudentCard> {
                 const SizedBox(height: 16),
                 AppInput(
                   controller: _scoresController,
+                  label: AppStrings.students.editPlaceholderScores.tr(),
                   placeholder: AppStrings.students.editPlaceholderScores.tr(),
                   errorText: _scoresError,
                   keyboardType: TextInputType.number,

@@ -11,11 +11,13 @@ class ExamsProvider extends ChangeNotifier {
   final ValueNotifier<bool> isLoading = ValueNotifier(false);
   final ValueNotifier<bool> isUpdating = ValueNotifier(false);
   final ValueNotifier<List<ExamSummary>> exams = ValueNotifier([]);
+  final ValueNotifier<List<int>> selectedExams = ValueNotifier([]);
 
   int page = 1;
   final int pageSize = 20;
   int total = 0;
   String search = '';
+  int? groupIdFilter;
   Timer? _debounce;
 
   bool get hasPrevious => page > 1;
@@ -30,9 +32,11 @@ class ExamsProvider extends ChangeNotifier {
         page: page,
         pageSize: pageSize,
         search: search,
+        groupId: groupIdFilter,
       );
       _service.ensureSuccess(response);
       exams.value = response.data?.exams ?? [];
+      selectedExams.value = [];
       total = response.data?.total ?? 0;
       notifyListeners();
     } finally {
@@ -49,6 +53,12 @@ class ExamsProvider extends ChangeNotifier {
     });
   }
 
+  Future<void> applyGroupFilter(int? groupId) async {
+    groupIdFilter = groupId;
+    page = 1;
+    await fetchExams();
+  }
+
   Future<void> nextPage() async {
     if (!hasNext) return;
     page++;
@@ -59,6 +69,24 @@ class ExamsProvider extends ChangeNotifier {
     if (!hasPrevious) return;
     page--;
     await fetchExams();
+  }
+
+  void toggleExamSelect(int id) {
+    final updated = List<int>.from(selectedExams.value);
+    if (updated.contains(id)) {
+      updated.remove(id);
+    } else {
+      updated.add(id);
+    }
+    selectedExams.value = updated;
+  }
+
+  void setSelectedExams(List<int> ids) {
+    selectedExams.value = List<int>.from(ids);
+  }
+
+  void clearSelectedExams() {
+    selectedExams.value = [];
   }
 
   Future<Exam> getExam(int id) async {
@@ -86,6 +114,21 @@ class ExamsProvider extends ChangeNotifier {
     _service.ensureSuccess(response);
     if (exams.value.length == 1 && page > 1) page--;
     await fetchExams();
+  }
+
+  Future<void> deleteSelectedExams() async {
+    final ids = List<int>.from(selectedExams.value);
+    isLoading.value = true;
+    try {
+      for (final id in ids) {
+        final response = await _service.deleteExam(id);
+        _service.ensureSuccess(response);
+      }
+      if (exams.value.length <= ids.length && page > 1) page--;
+      await fetchExams();
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<Exam> saveTarget(
@@ -124,34 +167,13 @@ class ExamsProvider extends ChangeNotifier {
     return getExam(exam.id);
   }
 
-  Future<List<ExamSessionSummary>> getSessions(int examId) async {
-    final response = await _service.getSessions(examId);
-    _service.ensureSuccess(response);
-    return response.data?.sessions ?? [];
-  }
-
-  Future<TeacherSession> getSession(int sessionId) async {
-    final response = await _service.getSession(sessionId);
-    _service.ensureSuccess(response);
-    return response.data!;
-  }
-
-  Future<TeacherSession> reviewAnswer(
-    int sessionId,
-    int answerId,
-    bool accepted,
-  ) async {
-    final response = await _service.reviewAnswer(sessionId, answerId, accepted);
-    _service.ensureSuccess(response);
-    return response.data!;
-  }
-
   @override
   void dispose() {
     _debounce?.cancel();
     isLoading.dispose();
     isUpdating.dispose();
     exams.dispose();
+    selectedExams.dispose();
     super.dispose();
   }
 }

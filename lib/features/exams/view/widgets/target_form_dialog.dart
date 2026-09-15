@@ -41,16 +41,12 @@ class _TargetFormDialogState extends State<TargetFormDialog> {
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 16),
-          DropdownButtonFormField<int>(
-            initialValue: _year,
-            decoration: InputDecoration(
-              labelText: AppStrings.exams.year.tr(),
-              border: const OutlineInputBorder(),
-            ),
-            items: [
-              for (var year = 1; year <= 6; year++)
-                DropdownMenuItem(value: year, child: Text('$year')),
-            ],
+          AppDropdown<int>(
+            value: _year,
+            items: const [1, 2, 3, 4, 5, 6],
+            itemAsString: (year) => year.toString(),
+            label: AppStrings.exams.year.tr(),
+            placeholder: AppStrings.exams.year.tr(),
             onChanged: (value) => setState(() {
               _year = value!;
               if (_group?.year != _year) {
@@ -64,6 +60,7 @@ class _TargetFormDialogState extends State<TargetFormDialog> {
             value: _group,
             year: _year,
             allowClear: true,
+            label: AppStrings.exams.group.tr(),
             placeholder: _groupId == null
                 ? AppStrings.exams.entireYear.tr()
                 : '${AppStrings.exams.group.tr()} #$_groupId',

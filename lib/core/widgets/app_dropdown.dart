@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'app_input.dart';
 
 class AppDropdown<T extends Object> extends StatelessWidget {
   final List<T> items;
   final T? value;
   final String Function(T item) itemAsString;
   final ValueChanged<T?> onChanged;
+  final String? label;
   final String? placeholder;
   final String? errorText;
 
@@ -15,6 +15,7 @@ class AppDropdown<T extends Object> extends StatelessWidget {
     required this.itemAsString,
     required this.onChanged,
     this.value,
+    this.label,
     this.placeholder,
     this.errorText,
   });
@@ -28,27 +29,32 @@ class AppDropdown<T extends Object> extends StatelessWidget {
       items: items.map((item) {
         return DropdownMenuItem<T>(
           value: item,
-          child: Text(
-            itemAsString(item),
-            style: theme.textTheme.bodyMedium,
-          ),
+          child: Text(itemAsString(item), style: theme.textTheme.bodyMedium),
         );
       }).toList(),
       onChanged: onChanged,
       // Используем стиль твоего AppInput через decoration, чтобы дизайн сохранялся единым
       decoration: InputDecoration(
+        labelText: label,
         hintText: placeholder,
         errorText: errorText,
         filled: true,
         fillColor: theme.colorScheme.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: theme.colorScheme.outline.withOpacity(0.5)),
+          borderSide: BorderSide(
+            color: theme.colorScheme.outline.withOpacity(0.5),
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: theme.colorScheme.outline.withOpacity(0.5)),
+          borderSide: BorderSide(
+            color: theme.colorScheme.outline.withOpacity(0.5),
+          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),

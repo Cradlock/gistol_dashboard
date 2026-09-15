@@ -151,6 +151,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
               const SizedBox(height: 16),
               AppInput(
                 controller: _titleController,
+                label: AppStrings.tasks.addPlaceholderTitle.tr(),
                 placeholder: AppStrings.tasks.addPlaceholderTitle.tr(),
                 errorText: _titleError,
                 onChanged: (_) => setState(() {}),
@@ -158,6 +159,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
               const SizedBox(height: 16),
               AppInput(
                 controller: _contentController,
+                label: AppStrings.tasks.addPlaceholderContent.tr(),
                 placeholder: AppStrings.tasks.addPlaceholderContent.tr(),
                 errorText: _contentError,
                 maxLines: 5,
@@ -167,6 +169,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
               const SizedBox(height: 16),
               GroupPickerField(
                 value: _selectedGroup,
+                label: AppStrings.tasks.addPlaceholderGroup.tr(),
                 placeholder: AppStrings.tasks.addPlaceholderGroup.tr(),
                 errorText: _groupError,
                 onChanged: (value) => setState(() {
@@ -179,6 +182,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
                 controller: _pointsController,
                 keyboardType: TextInputType.number,
                 formatters: [FilteringTextInputFormatter.digitsOnly],
+                label: AppStrings.tasks.addPlaceholderPoints.tr(),
                 placeholder: AppStrings.tasks.addPlaceholderPoints.tr(),
                 errorText: _pointsError,
                 onChanged: (_) => setState(() {}),
@@ -186,6 +190,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
               const SizedBox(height: 16),
               AppInput(
                 controller: _startController,
+                label: AppStrings.tasks.startAt.tr(),
                 placeholder: AppStrings.tasks.startAt.tr(),
                 errorText: _dateError,
                 onTap: () async {
@@ -201,6 +206,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
               const SizedBox(height: 16),
               AppInput(
                 controller: _endController,
+                label: AppStrings.tasks.endAt.tr(),
                 placeholder: AppStrings.tasks.endAt.tr(),
                 onTap: () async {
                   final value = await _pickDateTime(_endAt);

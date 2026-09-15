@@ -1,49 +1,49 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gistol_dashboard/core/core.dart';
+import 'package:gistol_dashboard/features/exams/domain/exam.dart';
+import 'package:gistol_dashboard/features/exams/view/provider.dart';
+import 'package:gistol_dashboard/features/exams/view/widgets/exam_form_dialog.dart';
 import 'package:gistol_dashboard/features/groups/groups.dart';
-import 'package:gistol_dashboard/features/tasks/domain/task.dart';
-import 'package:gistol_dashboard/features/tasks/view/provider.dart';
-import 'package:gistol_dashboard/features/tasks/view/widgets/add_task_card.dart';
 import 'package:provider/provider.dart';
 
-class TasksNavbar extends StatefulWidget {
-  const TasksNavbar({super.key});
+class ExamsNavbar extends StatefulWidget {
+  const ExamsNavbar({super.key});
 
   @override
-  State<TasksNavbar> createState() => _TasksNavbarState();
+  State<ExamsNavbar> createState() => _ExamsNavbarState();
 }
 
-class _TasksNavbarState extends State<TasksNavbar> {
+class _ExamsNavbarState extends State<ExamsNavbar> {
   Group? _selectedGroup;
 
   @override
   Widget build(BuildContext context) {
-    final tasksProvider = context.watch<TasksProvider>();
+    final provider = context.watch<ExamsProvider>();
 
     return Column(
       children: [
         Row(
           children: [
-            ValueListenableBuilder<List<SituationTask>>(
-              valueListenable: tasksProvider.tasks,
-              builder: (context, tasks, child) {
-                if (tasks.isEmpty) return const SizedBox.shrink();
+            ValueListenableBuilder<List<ExamSummary>>(
+              valueListenable: provider.exams,
+              builder: (context, exams, child) {
+                if (exams.isEmpty) return const SizedBox.shrink();
                 return ValueListenableBuilder<List<int>>(
-                  valueListenable: tasksProvider.selectedTasks,
+                  valueListenable: provider.selectedExams,
                   builder: (context, selectedIds, child) {
                     final isAllSelected =
-                        tasks.isNotEmpty &&
-                        tasks.every((task) => selectedIds.contains(task.id));
+                        exams.isNotEmpty &&
+                        exams.every((exam) => selectedIds.contains(exam.id));
                     return Checkbox(
                       value: isAllSelected,
                       onChanged: (value) {
                         if (value == true) {
-                          tasksProvider.setSelectedTasks(
-                            tasks.map((task) => task.id).toList(),
+                          provider.setSelectedExams(
+                            exams.map((exam) => exam.id).toList(),
                           );
                         } else {
-                          tasksProvider.clearSelectedTasks();
+                          provider.clearSelectedExams();
                         }
                       },
                     );
@@ -55,8 +55,8 @@ class _TasksNavbarState extends State<TasksNavbar> {
             Expanded(
               child: AppInput(
                 prefixIcon: const Icon(Icons.search),
-                placeholder: AppStrings.tasks.searchPlaceholder.tr(),
-                onChanged: tasksProvider.onSearchChanged,
+                placeholder: AppStrings.exams.searchPlaceholder.tr(),
+                onChanged: provider.onSearchChanged,
               ),
             ),
             const SizedBox(width: 8),
@@ -65,12 +65,12 @@ class _TasksNavbarState extends State<TasksNavbar> {
               child: GroupPickerField(
                 value: _selectedGroup,
                 allowClear: true,
-                label: AppStrings.tasks.filterGroup.tr(),
-                placeholder: AppStrings.tasks.filterGroup.tr(),
+                label: AppStrings.exams.filterGroup.tr(),
+                placeholder: AppStrings.exams.filterGroup.tr(),
                 onChanged: (group) async {
                   setState(() => _selectedGroup = group);
                   try {
-                    await tasksProvider.applyGroupFilter(group?.id);
+                    await provider.applyGroupFilter(group?.id);
                   } on AppException catch (e) {
                     ErrorHandler.handle(e);
                   }
@@ -81,7 +81,7 @@ class _TasksNavbarState extends State<TasksNavbar> {
             AppBtn(
               onPressed: () async {
                 try {
-                  await tasksProvider.applyGroupFilter(null);
+                  await provider.applyGroupFilter(null);
                   if (mounted) setState(() => _selectedGroup = null);
                 } on AppException catch (e) {
                   ErrorHandler.handle(e);
@@ -93,10 +93,10 @@ class _TasksNavbarState extends State<TasksNavbar> {
             const SizedBox(width: 8),
             AppBtn(
               onPressed: () async {
-                if (tasksProvider.selectedTasks.value.isEmpty) {
+                if (provider.selectedExams.value.isEmpty) {
                   await showActionConfirmDialog(
                     context: context,
-                    message: AppStrings.tasks.notSelected.tr(),
+                    message: AppStrings.exams.notSelected.tr(),
                     isCancel: false,
                   );
                   return;
@@ -104,9 +104,9 @@ class _TasksNavbarState extends State<TasksNavbar> {
                 await showActionConfirmDialog(
                   context: context,
                   message:
-                      '${AppStrings.tasks.deleteQuestion.tr()} (${tasksProvider.selectedTasks.value.length})',
+                      '${AppStrings.exams.deleteSelected.tr()} (${provider.selectedExams.value.length})',
                   onConfirm: () async {
-                    await tasksProvider.deleteSelectedTasks();
+                    await provider.deleteSelectedExams();
                   },
                 );
               },
@@ -118,7 +118,7 @@ class _TasksNavbarState extends State<TasksNavbar> {
               onPressed: () async {
                 await showAppDialog(
                   context: context,
-                  content: const AddTaskCard(),
+                  content: const ExamFormDialog(),
                 );
               },
               icon: Icons.add,

@@ -5,7 +5,6 @@ import 'package:gistol_dashboard/features/exams/domain/exam.dart';
 import 'package:gistol_dashboard/features/exams/view/provider.dart';
 import 'package:gistol_dashboard/features/exams/view/widgets/exam_form_dialog.dart';
 import 'package:gistol_dashboard/features/exams/view/widgets/question_form_dialog.dart';
-import 'package:gistol_dashboard/features/exams/view/widgets/session_review_dialog.dart';
 import 'package:gistol_dashboard/features/exams/view/widgets/target_form_dialog.dart';
 import 'package:gistol_dashboard/features/groups/groups.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,6 @@ class ExamDetailsDialog extends StatefulWidget {
 
 class _ExamDetailsDialogState extends State<ExamDetailsDialog> {
   Exam? _exam;
-  List<ExamSessionSummary> _sessions = [];
   bool _loading = true;
 
   @override
@@ -32,13 +30,7 @@ class _ExamDetailsDialogState extends State<ExamDetailsDialog> {
   Future<void> _load() async {
     setState(() => _loading = true);
     try {
-      final provider = context.read<ExamsProvider>();
-      final results = await Future.wait<dynamic>([
-        provider.getExam(widget.examId),
-        provider.getSessions(widget.examId),
-      ]);
-      _exam = results[0] as Exam;
-      _sessions = results[1] as List<ExamSessionSummary>;
+      _exam = await context.read<ExamsProvider>().getExam(widget.examId);
     } on AppException catch (error) {
       if (mounted) ErrorHandler.handle(error, context: context);
     } finally {
@@ -158,23 +150,18 @@ class _ExamDetailsDialogState extends State<ExamDetailsDialog> {
                       const SizedBox(height: 12),
                       Expanded(
                         child: DefaultTabController(
-                          length: 3,
+                          length: 2,
                           child: Column(
                             children: [
                               TabBar(
                                 tabs: [
                                   Tab(text: AppStrings.exams.targets.tr()),
                                   Tab(text: AppStrings.exams.questions.tr()),
-                                  Tab(text: AppStrings.exams.sessions.tr()),
                                 ],
                               ),
                               Expanded(
                                 child: TabBarView(
-                                  children: [
-                                    _targets(exam),
-                                    _questions(exam),
-                                    _sessionList(),
-                                  ],
+                                  children: [_targets(exam), _questions(exam)],
                                 ),
                               ),
                             ],
@@ -273,32 +260,5 @@ class _ExamDetailsDialogState extends State<ExamDetailsDialog> {
         ),
       ),
     ],
-  );
-
-  Widget _sessionList() => RefreshIndicator(
-    onRefresh: _load,
-    child: ListView.builder(
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemCount: _sessions.length,
-      itemBuilder: (context, index) {
-        final session = _sessions[index];
-        return ListTile(
-          leading: const Icon(Icons.person_outline),
-          title: Text(
-            '${session.studentName ?? '${AppStrings.exams.user.tr()} ${session.userId}'} • '
-            '${session.status}',
-          ),
-          subtitle: Text(
-            '${_date(session.startedAt)} • '
-            '${AppStrings.exams.score.tr()}: ${session.score ?? '—'}',
-          ),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => showAppDialog<void>(
-            context: context,
-            content: SessionReviewDialog(sessionId: session.id),
-          ),
-        );
-      },
-    ),
   );
 }

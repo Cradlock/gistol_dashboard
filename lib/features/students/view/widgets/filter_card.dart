@@ -36,16 +36,18 @@ class _StudentFilterCardState extends State<StudentFilterCard> {
     });
 
     try {
-      await provider.updateFilterParams(FilterStudentParams(
-        sortType: provider.filterParams.sortType,
-        sortField: provider.filterParams.sortField,
-        fio: provider.filterParams.fio,
-        minYear: _minYear,
-        maxYear: _maxYear,
-        groupId: _groupId,
-        confirmed: provider.filterParams.confirmed,
-        deleted: provider.filterParams.deleted,
-      ));
+      await provider.updateFilterParams(
+        FilterStudentParams(
+          sortType: provider.filterParams.sortType,
+          sortField: provider.filterParams.sortField,
+          fio: provider.filterParams.fio,
+          minYear: _minYear,
+          maxYear: _maxYear,
+          groupId: _groupId,
+          confirmed: provider.filterParams.confirmed,
+          deleted: provider.filterParams.deleted,
+        ),
+      );
       if (!context.mounted) return;
       Navigator.pop(context);
     } on AppException catch (e) {
@@ -131,6 +133,7 @@ class _StudentFilterCardState extends State<StudentFilterCard> {
                         value: years.contains(_minYear) ? _minYear : null,
                         items: years,
                         itemAsString: (i) => i.toString(),
+                        label: AppStrings.common.from.tr(),
                         placeholder: AppStrings.common.from.tr(),
                         onChanged: (i) => setState(() {
                           _minYear = i;
@@ -148,6 +151,7 @@ class _StudentFilterCardState extends State<StudentFilterCard> {
                         value: years.contains(_maxYear) ? _maxYear : null,
                         items: years,
                         itemAsString: (i) => i.toString(),
+                        label: AppStrings.common.to.tr(),
                         placeholder: AppStrings.common.to.tr(),
                         onChanged: (i) => setState(() {
                           _maxYear = i;
@@ -169,6 +173,7 @@ class _StudentFilterCardState extends State<StudentFilterCard> {
                   items: groupsForYears,
                   value: selectedGroup,
                   itemAsString: (group) => group.title,
+                  label: AppStrings.students.filterGroupLabel.tr(),
                   placeholder: AppStrings.students.filterGroupLabel.tr(),
                   onChanged: (group) => setState(() {
                     _groupId = group?.id;

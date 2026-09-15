@@ -21,6 +21,7 @@ Future<Group?> showGroupPicker({
 class GroupPickerField extends StatelessWidget {
   final Group? value;
   final ValueChanged<Group?> onChanged;
+  final String? label;
   final String? placeholder;
   final String? errorText;
   final int? year;
@@ -30,6 +31,7 @@ class GroupPickerField extends StatelessWidget {
     super.key,
     required this.value,
     required this.onChanged,
+    this.label,
     this.placeholder,
     this.errorText,
     this.year,
@@ -48,72 +50,57 @@ class GroupPickerField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final borderColor = errorText == null
-        ? theme.colorScheme.outline.withValues(alpha: 0.5)
-        : theme.colorScheme.error;
+    final caption = label ?? placeholder;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Material(
-          color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          child: InkWell(
-            onTap: () => _open(context),
+    return InkWell(
+      onTap: () => _open(context),
+      borderRadius: BorderRadius.circular(16),
+      child: InputDecorator(
+        isEmpty: value == null,
+        decoration: InputDecoration(
+          labelText: caption,
+          hintText: value == null ? placeholder : null,
+          errorText: errorText,
+          filled: true,
+          fillColor: theme.colorScheme.surface,
+          prefixIcon: const Icon(Icons.groups_outlined),
+          suffixIcon: allowClear && value != null
+              ? IconButton(
+                  tooltip: MaterialLocalizations.of(
+                    context,
+                  ).deleteButtonTooltip,
+                  onPressed: () => onChanged(null),
+                  icon: const Icon(Icons.close),
+                )
+              : const Icon(Icons.chevron_right),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+          enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16),
-            child: Container(
-              constraints: const BoxConstraints(minHeight: 52),
-              padding: const EdgeInsets.only(left: 16, right: 8),
-              decoration: BoxDecoration(
-                border: Border.all(color: borderColor),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.groups_outlined),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      value?.title ??
-                          placeholder ??
-                          AppStrings.students.editPlaceholderGroup.tr(),
-                      overflow: TextOverflow.ellipsis,
-                      style: value == null
-                          ? theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant,
-                            )
-                          : theme.textTheme.bodyMedium,
-                    ),
-                  ),
-                  if (allowClear && value != null)
-                    IconButton(
-                      tooltip: MaterialLocalizations.of(
-                        context,
-                      ).deleteButtonTooltip,
-                      onPressed: () => onChanged(null),
-                      icon: const Icon(Icons.close),
-                    )
-                  else
-                    const Padding(
-                      padding: EdgeInsets.all(12),
-                      child: Icon(Icons.chevron_right),
-                    ),
-                ],
-              ),
+            borderSide: BorderSide(
+              color: errorText != null
+                  ? theme.colorScheme.error
+                  : theme.colorScheme.outline.withValues(alpha: 0.5),
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+            borderSide: BorderSide(
+              color: errorText != null
+                  ? theme.colorScheme.error
+                  : theme.colorScheme.primary,
             ),
           ),
         ),
-        if (errorText != null)
-          Padding(
-            padding: const EdgeInsets.only(left: 16, top: 6),
-            child: Text(
-              errorText!,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.error,
-              ),
-            ),
-          ),
-      ],
+        child: Text(
+          value?.title ?? '',
+          overflow: TextOverflow.ellipsis,
+          style: theme.textTheme.bodyMedium,
+        ),
+      ),
     );
   }
 }
@@ -230,6 +217,8 @@ class _GroupPickerDialogState extends State<GroupPickerDialog> {
                   value: _sortField,
                   items: const [SortField.groupTitle, SortField.date],
                   itemAsString: (item) => item.trKey.tr(),
+                  label: AppStrings.groups.sortField.tr(),
+                  placeholder: AppStrings.groups.sortField.tr(),
                   onChanged: _setSortField,
                 ),
               ),
@@ -239,6 +228,8 @@ class _GroupPickerDialogState extends State<GroupPickerDialog> {
                   value: _sortOrder,
                   items: SortOrder.values,
                   itemAsString: (item) => item.trKey.tr(),
+                  label: AppStrings.groups.sortOrder.tr(),
+                  placeholder: AppStrings.groups.sortOrder.tr(),
                   onChanged: _setSortOrder,
                 ),
               ),
