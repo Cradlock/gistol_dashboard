@@ -78,51 +78,56 @@ class _ExamsNavbarState extends State<ExamsNavbar> {
               ),
             ),
             const SizedBox(width: 8),
-            AppBtn(
-              onPressed: () async {
-                try {
-                  await provider.applyGroupFilter(null);
-                  if (mounted) setState(() => _selectedGroup = null);
-                } on AppException catch (e) {
-                  ErrorHandler.handle(e);
-                }
-              },
-              icon: Icons.filter_alt_off,
-              borderRadius: 50,
-            ),
-            const SizedBox(width: 8),
-            AppBtn(
-              onPressed: () async {
-                if (provider.selectedExams.value.isEmpty) {
-                  await showActionConfirmDialog(
-                    context: context,
-                    message: AppStrings.exams.notSelected.tr(),
-                    isCancel: false,
-                  );
-                  return;
-                }
-                await showActionConfirmDialog(
-                  context: context,
-                  message:
-                      '${AppStrings.exams.deleteSelected.tr()} (${provider.selectedExams.value.length})',
-                  onConfirm: () async {
-                    await provider.deleteSelectedExams();
+            TableOperationsButton(
+              operations: [
+                TableOperation(
+                  icon: Icons.filter_alt_off,
+                  title: AppStrings.exams.resetFilter.tr(),
+                  description: AppStrings.common.resetFilterDesc.tr(),
+                  onSelected: () async {
+                    try {
+                      await provider.applyGroupFilter(null);
+                      if (mounted) setState(() => _selectedGroup = null);
+                    } on AppException catch (e) {
+                      ErrorHandler.handle(e);
+                    }
                   },
-                );
-              },
-              icon: Icons.delete,
-              borderRadius: 50,
-            ),
-            const SizedBox(width: 8),
-            AppBtn(
-              onPressed: () async {
-                await showAppDialog(
-                  context: context,
-                  content: const ExamFormDialog(),
-                );
-              },
-              icon: Icons.add,
-              borderRadius: 50,
+                ),
+                TableOperation(
+                  icon: Icons.delete,
+                  title: AppStrings.common.delete.tr(),
+                  description: AppStrings.common.deleteDesc.tr(),
+                  onSelected: () async {
+                    if (provider.selectedExams.value.isEmpty) {
+                      await showActionConfirmDialog(
+                        context: context,
+                        message: AppStrings.exams.notSelected.tr(),
+                        isCancel: false,
+                      );
+                      return;
+                    }
+                    await showActionConfirmDialog(
+                      context: context,
+                      message:
+                          '${AppStrings.exams.deleteSelected.tr()} (${provider.selectedExams.value.length})',
+                      onConfirm: () async {
+                        await provider.deleteSelectedExams();
+                      },
+                    );
+                  },
+                ),
+                TableOperation(
+                  icon: Icons.add,
+                  title: AppStrings.common.create.tr(),
+                  description: AppStrings.common.createDesc.tr(),
+                  onSelected: () async {
+                    await showAppDialog(
+                      context: context,
+                      content: const ExamFormDialog(),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),

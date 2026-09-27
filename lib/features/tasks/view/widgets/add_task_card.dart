@@ -5,10 +5,13 @@ import 'package:gistol_dashboard/core/core.dart';
 import 'package:gistol_dashboard/features/groups/groups.dart';
 import 'package:gistol_dashboard/features/tasks/domain/task.dart';
 import 'package:gistol_dashboard/features/tasks/view/provider.dart';
+import 'package:gistol_dashboard/features/tasks/view/widgets/task_groups_field.dart';
 import 'package:provider/provider.dart';
 
 class AddTaskCard extends StatefulWidget {
-  const AddTaskCard({super.key});
+  final SituationTask? task;
+
+  const AddTaskCard({super.key, this.task});
 
   @override
   State<AddTaskCard> createState() => _AddTaskCardState();
@@ -20,11 +23,27 @@ class _AddTaskCardState extends State<AddTaskCard> {
   final _pointsController = TextEditingController(text: '1');
   final _startController = TextEditingController();
   final _endController = TextEditingController();
-  int? _selectedGroupId;
-  Group? _selectedGroup;
+  List<Group> _selectedGroups = [];
   DateTime? _startAt;
   DateTime? _endAt;
   bool _isSubmitted = false;
+
+  bool get _isEditing => widget.task != null;
+
+  @override
+  void initState() {
+    super.initState();
+    final task = widget.task;
+    if (task == null) return;
+    _titleController.text = task.title;
+    _contentController.text = task.content;
+    _pointsController.text = '${task.points}';
+    _selectedGroups = List<Group>.from(task.groups);
+    _startAt = task.startAt.toLocal();
+    _endAt = task.endAt.toLocal();
+    _startController.text = _format(_startAt);
+    _endController.text = _format(_endAt);
+  }
 
   @override
   void dispose() {
@@ -46,7 +65,7 @@ class _AddTaskCardState extends State<AddTaskCard> {
 
   String? get _groupError {
     if (!_isSubmitted) return null;
-    if (_selectedGroupId == null) {
+    if (_selectedGroups.isEmpty) {
       return AppStrings.common.errorBlankInput.tr();
     }
     return null;
@@ -112,17 +131,20 @@ class _AddTaskCardState extends State<AddTaskCard> {
     }
 
     final provider = context.read<TasksProvider>();
+    final request = TaskWriteRequest(
+      title: _titleController.text.trim(),
+      content: _contentController.text.trim(),
+      groupIds: _selectedGroups.map((group) => group.id).toList(),
+      startAt: _startAt!,
+      endAt: _endAt!,
+      points: int.parse(_pointsController.text.trim()),
+    );
     try {
-      await provider.addTask(
-        TaskWriteRequest(
-          title: _titleController.text.trim(),
-          content: _contentController.text.trim(),
-          groupId: _selectedGroupId!,
-          startAt: _startAt!,
-          endAt: _endAt!,
-          points: int.parse(_pointsController.text.trim()),
-        ),
-      );
+      if (_isEditing) {
+        await provider.updateTask(widget.task!.id, request);
+      } else {
+        await provider.addTask(request);
+      }
       if (!context.mounted) return;
       Navigator.pop(context);
     } on AppException catch (e) {
@@ -140,13 +162,18 @@ class _AddTaskCardState extends State<AddTaskCard> {
         padding: const EdgeInsets.all(20),
         child: SizedBox(
           width: 420,
-          child: Column(
+          child: SingleChildScrollView(
+            child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                formatDate(context, DateTime.now()),
-                style: Theme.of(context).textTheme.labelMedium,
+                _isEditing
+                    ? AppStrings.tasks.edit.tr()
+                    : formatDate(context, DateTime.now()),
+                style: _isEditing
+                    ? Theme.of(context).textTheme.titleLarge
+                    : Theme.of(context).textTheme.labelMedium,
               ),
               const SizedBox(height: 16),
               AppInput(
@@ -167,15 +194,12 @@ class _AddTaskCardState extends State<AddTaskCard> {
                 onChanged: (_) => setState(() {}),
               ),
               const SizedBox(height: 16),
-              GroupPickerField(
-                value: _selectedGroup,
+              TaskGroupsField(
+                value: _selectedGroups,
                 label: AppStrings.tasks.addPlaceholderGroup.tr(),
                 placeholder: AppStrings.tasks.addPlaceholderGroup.tr(),
                 errorText: _groupError,
-                onChanged: (value) => setState(() {
-                  _selectedGroup = value;
-                  _selectedGroupId = value?.id;
-                }),
+                onChanged: (value) => setState(() => _selectedGroups = value),
               ),
               const SizedBox(height: 16),
               AppInput(
@@ -232,12 +256,17 @@ class _AddTaskCardState extends State<AddTaskCard> {
                     const SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () => _submit(context),
-                      child: Text(AppStrings.common.create.tr()),
+                      child: Text(
+                        _isEditing
+                            ? AppStrings.common.save.tr()
+                            : AppStrings.common.create.tr(),
+                      ),
                     ),
                   ],
                 ),
               ),
             ],
+          ),
           ),
         ),
       ),

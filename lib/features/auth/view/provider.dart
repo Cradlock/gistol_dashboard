@@ -20,6 +20,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AuthProvider extends ChangeNotifier{
   User? user;
+  AdminProfile? adminProfile;
 
   bool _isLoading = false;
   
@@ -85,8 +86,72 @@ class AuthProvider extends ChangeNotifier{
   }
 
   Future<void> logout() async {
-    
+    adminProfile = null;
     notifyListeners();
+  }
+
+  Future<void> loadAdminProfile() async {
+    _isLoading = true;
+    currentError = null;
+    notifyListeners();
+    try {
+      final response = await _service.adminMe();
+      if (!response.isSuccess || response.data == null) {
+        throw SessionExpired();
+      }
+      adminProfile = response.data;
+    } on AppException {
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateAdminCode({
+    required String currentPassword,
+    required String code,
+  }) async {
+    _isLoading = true;
+    currentError = null;
+    notifyListeners();
+    try {
+      final response = await _service.updateAdminCode(
+        AdminCodeUpdateRequest(
+          currentPassword: currentPassword,
+          code: code,
+        ),
+      );
+      adminProfile = response.data;
+    } on AppException {
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateAdminPassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    _isLoading = true;
+    currentError = null;
+    notifyListeners();
+    try {
+      final response = await _service.updateAdminPassword(
+        AdminPasswordUpdateRequest(
+          currentPassword: currentPassword,
+          newPassword: newPassword,
+        ),
+      );
+      adminProfile = response.data;
+    } on AppException {
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
   
   void _clearData() {

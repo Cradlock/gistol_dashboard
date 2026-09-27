@@ -4,6 +4,7 @@ import 'package:gistol_dashboard/entry/screens/layout.dart';
 import 'package:gistol_dashboard/entry/screens/no_connection.dart';
 import 'package:gistol_dashboard/entry/screens/no_internet_screen.dart';
 import 'package:gistol_dashboard/features/auth/screens/login_screen.dart';
+import 'package:gistol_dashboard/features/auth/screens/profile_screen.dart';
 import 'package:gistol_dashboard/features/auth/screens/splash_screen.dart';
 import 'package:gistol_dashboard/features/groups/groups.dart';
 import 'package:gistol_dashboard/features/legal/screens/policy_screen.dart';
@@ -36,6 +37,10 @@ class AppRouter {
           GoRoute(
             path: '/home',
             builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: '/profile',
+            builder: (context, state) => const ProfileScreen(),
           ),
           GoRoute(
             path: '/settings',

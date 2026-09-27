@@ -1,4 +1,5 @@
 import 'package:gistol_dashboard/core/core.dart';
+import 'package:gistol_dashboard/features/groups/domain/group.dart';
 
 enum AnswerStatus {
   pending('pending'),
@@ -20,7 +21,8 @@ class SituationTask {
   final int id;
   final String title;
   final String content;
-  final int groupId;
+  final List<int> groupIds;
+  final List<Group> groups;
   final DateTime startAt;
   final DateTime endAt;
   final int points;
@@ -29,7 +31,8 @@ class SituationTask {
     required this.id,
     required this.title,
     required this.content,
-    required this.groupId,
+    required this.groupIds,
+    required this.groups,
     required this.startAt,
     required this.endAt,
     required this.points,
@@ -37,15 +40,41 @@ class SituationTask {
 
   factory SituationTask.converter(dynamic json) {
     final data = json as Map<String, dynamic>;
+    final groups = (data['groups'] as List<dynamic>? ?? [])
+        .map(Group.converter)
+        .toList();
+    final rawIds = data['group_ids'] as List<dynamic>?;
+    final groupIds = rawIds != null
+        ? rawIds.map((item) => (item as num).toInt()).toList()
+        : [
+            if (data['group_id'] is num) (data['group_id'] as num).toInt(),
+            ...groups.map((group) => group.id),
+          ];
     return SituationTask(
       id: data['id'] as int,
       title: data['title'] as String,
       content: data['content'] as String,
-      groupId: data['group_id'] as int,
+      groupIds: groupIds.toSet().toList(),
+      groups: groups,
       startAt: DateTime.parse(data['start_at'] as String),
       endAt: DateTime.parse(data['end_at'] as String),
       points: data['points'] as int,
     );
+  }
+
+  String groupTitles({List<Group> catalog = const []}) {
+    if (groups.isNotEmpty) {
+      return groups.map((group) => group.title).join(', ');
+    }
+    if (groupIds.isEmpty) return '';
+    return groupIds
+        .map((id) {
+          for (final group in catalog) {
+            if (group.id == id) return group.title;
+          }
+          return '#$id';
+        })
+        .join(', ');
   }
 }
 
@@ -72,6 +101,8 @@ class StudentAnswer {
   final int taskId;
   final String text;
   final AnswerStatus status;
+  final String studentName;
+  final String? groupTitle;
 
   StudentAnswer({
     required this.id,
@@ -79,16 +110,25 @@ class StudentAnswer {
     required this.taskId,
     required this.text,
     required this.status,
+    required this.studentName,
+    this.groupTitle,
   });
 
   factory StudentAnswer.converter(dynamic json) {
     final data = json as Map<String, dynamic>;
+    final userId = data['user_id'] as int;
+    final rawName = (data['student_name'] as String?)?.trim();
+    final rawGroup = (data['group_title'] as String?)?.trim();
     return StudentAnswer(
       id: data['id'] as int,
-      userId: data['user_id'] as int,
+      userId: userId,
       taskId: data['task_id'] as int,
       text: data['text'] as String,
       status: AnswerStatus.fromJson(data['status'] as String?),
+      studentName: (rawName != null && rawName.isNotEmpty)
+          ? rawName
+          : '#$userId',
+      groupTitle: (rawGroup != null && rawGroup.isNotEmpty) ? rawGroup : null,
     );
   }
 }
@@ -113,7 +153,7 @@ class AnswerListResponse {
 class TaskWriteRequest implements ToJsonable {
   final String title;
   final String content;
-  final int groupId;
+  final List<int> groupIds;
   final DateTime startAt;
   final DateTime endAt;
   final int points;
@@ -121,7 +161,7 @@ class TaskWriteRequest implements ToJsonable {
   TaskWriteRequest({
     required this.title,
     required this.content,
-    required this.groupId,
+    required this.groupIds,
     required this.startAt,
     required this.endAt,
     required this.points,
@@ -132,7 +172,7 @@ class TaskWriteRequest implements ToJsonable {
     return {
       'title': title,
       'content': content,
-      'group_id': groupId,
+      'group_ids': groupIds,
       'start_at': startAt.toUtc().toIso8601String(),
       'end_at': endAt.toUtc().toIso8601String(),
       'points': points,

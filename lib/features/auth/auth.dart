@@ -4,6 +4,7 @@ export 'domain/auth.dart';
 export 'domain/errors.dart';
 
 export 'screens/login_screen.dart';
+export 'screens/profile_screen.dart';
 export 'screens/splash_screen.dart';
 
 export 'services/interceptors.dart';

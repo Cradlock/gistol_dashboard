@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gistol_dashboard/core/core.dart';
 import 'package:gistol_dashboard/features/students/view/provider.dart';
+import 'package:gistol_dashboard/features/students/view/students_export.dart';
+import 'package:gistol_dashboard/features/students/view/students_export_web.dart';
 import 'package:gistol_dashboard/features/students/view/widgets/filter_card.dart';
 import 'package:gistol_dashboard/features/students/view/widgets/sort_card.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +31,33 @@ class StudentsNavbar extends StatelessWidget {
       message: '$message? (${provider.selectedStudents.length})',
       onConfirm: onConfirm,
     );
+  }
+
+  StudentExportLabels _exportLabels() {
+    return StudentExportLabels(
+      name: AppStrings.students.editPlaceholderName.tr(),
+      surname: AppStrings.students.editPlaceholderSurname.tr(),
+      group: AppStrings.students.editPlaceholderGroup.tr(),
+      scores: AppStrings.students.editPlaceholderScores.tr(),
+      title: AppStrings.students.title.tr(),
+    );
+  }
+
+  Future<void> _exportSelected({
+    required BuildContext context,
+    required StudentsProvider provider,
+    required void Function(List<StudentExportRow> rows, StudentExportLabels labels)
+        action,
+  }) async {
+    if (provider.selectedStudents.isEmpty) {
+      await showActionConfirmDialog(
+        context: context,
+        message: AppStrings.students.notSelected.tr(),
+        isCancel: false,
+      );
+      return;
+    }
+    action(studentExportRows(provider.selectedStudentModels), _exportLabels());
   }
 
   @override
@@ -69,8 +98,17 @@ class StudentsNavbar extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             PopupMenuButton<String>(
-              icon: const Icon(Icons.tune),
               tooltip: AppStrings.students.filters.tr(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  children: [
+                    const Icon(Icons.tune, size: 20),
+                    const SizedBox(width: 8),
+                    Text(AppStrings.students.filters.tr()),
+                  ],
+                ),
+              ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -150,48 +188,75 @@ class StudentsNavbar extends StatelessWidget {
               },
             ),
             const SizedBox(width: 8),
-            AppBtn(
-              onPressed: () async {
-                if (showUnconfirm) {
-                  await _requireSelection(
+            TableOperationsButton(
+              operations: [
+                TableOperation(
+                  icon: Icons.grid_on,
+                  title: AppStrings.students.exportExcel.tr(),
+                  description: AppStrings.students.exportExcelDesc.tr(),
+                  onSelected: () => _exportSelected(
                     context: context,
                     provider: provider,
-                    message: AppStrings.students.unconfirmQuestion.tr(),
-                    onConfirm: provider.unconfirmStudents,
-                  );
-                } else {
-                  await _requireSelection(
+                    action: (rows, labels) => downloadStudentsExcel(
+                      rows: rows,
+                      labels: labels,
+                    ),
+                  ),
+                ),
+                TableOperation(
+                  icon: Icons.print,
+                  title: AppStrings.students.printSelected.tr(),
+                  description: AppStrings.students.printSelectedDesc.tr(),
+                  onSelected: () => _exportSelected(
                     context: context,
                     provider: provider,
-                    message: AppStrings.students.confirmQuestion.tr(),
-                    onConfirm: provider.confirmStudents,
-                  );
-                }
-              },
-              icon: showUnconfirm ? Icons.person_remove : Icons.how_to_reg,
-              borderRadius: 50,
-            ),
-            const SizedBox(width: 8),
-            AppBtn(
-              onPressed: () async {
-                if (showRestore) {
-                  await _requireSelection(
+                    action: (rows, labels) => printStudentsTable(
+                      rows: rows,
+                      labels: labels,
+                    ),
+                  ),
+                ),
+                TableOperation(
+                  icon: showUnconfirm
+                      ? Icons.person_remove
+                      : Icons.how_to_reg,
+                  title: showUnconfirm
+                      ? AppStrings.students.unconfirmAction.tr()
+                      : AppStrings.students.confirmAction.tr(),
+                  description: showUnconfirm
+                      ? AppStrings.students.unconfirmDesc.tr()
+                      : AppStrings.students.confirmDesc.tr(),
+                  onSelected: () => _requireSelection(
                     context: context,
                     provider: provider,
-                    message: AppStrings.students.recoveryQuestion.tr(),
-                    onConfirm: provider.recoveryStudents,
-                  );
-                } else {
-                  await _requireSelection(
+                    message: showUnconfirm
+                        ? AppStrings.students.unconfirmQuestion.tr()
+                        : AppStrings.students.confirmQuestion.tr(),
+                    onConfirm: showUnconfirm
+                        ? provider.unconfirmStudents
+                        : provider.confirmStudents,
+                  ),
+                ),
+                TableOperation(
+                  icon: showRestore ? Icons.restore : Icons.delete,
+                  title: showRestore
+                      ? AppStrings.students.restoreAction.tr()
+                      : AppStrings.students.deleteAction.tr(),
+                  description: showRestore
+                      ? AppStrings.students.restoreDesc.tr()
+                      : AppStrings.students.deleteDesc.tr(),
+                  onSelected: () => _requireSelection(
                     context: context,
                     provider: provider,
-                    message: AppStrings.students.deleteQuestion.tr(),
-                    onConfirm: provider.deleteStudents,
-                  );
-                }
-              },
-              icon: showRestore ? Icons.restore : Icons.delete,
-              borderRadius: 50,
+                    message: showRestore
+                        ? AppStrings.students.recoveryQuestion.tr()
+                        : AppStrings.students.deleteQuestion.tr(),
+                    onConfirm: showRestore
+                        ? provider.recoveryStudents
+                        : provider.deleteStudents,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

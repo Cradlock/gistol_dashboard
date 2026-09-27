@@ -4,6 +4,7 @@ import 'package:gistol_dashboard/core/core.dart';
 import 'package:gistol_dashboard/features/groups/groups.dart';
 import 'package:gistol_dashboard/features/tasks/domain/task.dart';
 import 'package:gistol_dashboard/features/tasks/view/provider.dart';
+import 'package:gistol_dashboard/features/tasks/view/widgets/add_task_card.dart';
 import 'package:provider/provider.dart';
 
 class TaskDetailsCard extends StatefulWidget {
@@ -28,13 +29,6 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
     });
   }
 
-  String _groupTitle(List<Group> groups) {
-    for (final group in groups) {
-      if (group.id == widget.task.groupId) return group.title;
-    }
-    return '#${widget.task.groupId}';
-  }
-
   String _statusKey(AnswerStatus status) {
     switch (status) {
       case AnswerStatus.pending:
@@ -44,6 +38,30 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
       case AnswerStatus.negative:
         return AppStrings.tasks.statusNegative;
     }
+  }
+
+  String _answerMeta(StudentAnswer answer) {
+    final parts = <String>[
+      answer.studentName,
+      if (answer.groupTitle != null) answer.groupTitle!,
+      _statusKey(answer.status).tr(),
+    ];
+    return parts.join(' • ');
+  }
+
+  SituationTask _currentTask(TasksProvider provider) {
+    for (final task in provider.tasks.value) {
+      if (task.id == widget.task.id) return task;
+    }
+    return widget.task;
+  }
+
+  Future<void> _edit(SituationTask task) async {
+    await showAppDialog(
+      context: context,
+      content: AddTaskCard(task: task),
+    );
+    if (mounted) setState(() {});
   }
 
   Future<void> _grade(int answerId, AnswerStatus status) async {
@@ -59,7 +77,7 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
     final theme = Theme.of(context);
     final tasksProvider = context.watch<TasksProvider>();
     final groups = context.watch<GroupProvider>().groups.value;
-    final task = widget.task;
+    final task = _currentTask(tasksProvider);
     final range =
         '${DateFormat('dd.MM.yyyy HH:mm').format(task.startAt.toLocal())} — ${DateFormat('dd.MM.yyyy HH:mm').format(task.endAt.toLocal())}';
 
@@ -85,7 +103,9 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
                 child: SingleChildScrollView(child: Text(task.content)),
               ),
               const SizedBox(height: 8),
-              Text('${AppStrings.tasks.group.tr()}: ${_groupTitle(groups)}'),
+              Text(
+                '${AppStrings.tasks.group.tr()}: ${task.groupTitles(catalog: groups)}',
+              ),
               Text('${AppStrings.tasks.points.tr()}: ${task.points}'),
               Text(range, style: theme.textTheme.bodySmall),
               const SizedBox(height: 16),
@@ -113,9 +133,7 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             title: Text(answer.text),
-                            subtitle: Text(
-                              '${AppStrings.tasks.student.tr()} ${answer.userId} • ${_statusKey(answer.status).tr()}',
-                            ),
+                            subtitle: Text(_answerMeta(answer)),
                             trailing: Wrap(
                               spacing: 4,
                               children: [
@@ -163,13 +181,21 @@ class _TaskDetailsCardState extends State<TaskDetailsCard> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: AppBtn(
-                  type: AppButtonType.text,
-                  text: AppStrings.common.ok.tr(),
-                  onPressed: () => Navigator.pop(context),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AppBtn(
+                    type: AppButtonType.text,
+                    text: AppStrings.tasks.edit.tr(),
+                    onPressed: () => _edit(task),
+                  ),
+                  const SizedBox(width: 8),
+                  AppBtn(
+                    type: AppButtonType.text,
+                    text: AppStrings.common.ok.tr(),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
               ),
             ],
           ),

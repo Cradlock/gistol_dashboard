@@ -10,13 +10,6 @@ import 'package:provider/provider.dart';
 class TasksList extends StatelessWidget {
   const TasksList({super.key});
 
-  String _groupTitle(List<Group> groups, int groupId) {
-    for (final group in groups) {
-      if (group.id == groupId) return group.title;
-    }
-    return '#$groupId';
-  }
-
   @override
   Widget build(BuildContext context) {
     final tasksProvider = context.watch<TasksProvider>();
@@ -51,7 +44,7 @@ class TasksList extends StatelessWidget {
                       final task = tasks[index];
                       return TaskTile(
                         task: task,
-                        groupTitle: _groupTitle(groups, task.groupId),
+                        groupTitle: task.groupTitles(catalog: groups),
                         isSelected: selectedIds.contains(task.id),
                         onSelect: tasksProvider.toggleTaskSelect,
                         onOpen: (opened) {

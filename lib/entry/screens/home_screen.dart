@@ -34,6 +34,12 @@ class HomeScreen extends StatelessWidget {
       descriptionKey: 'home.exams_desc',
     ),
     _HomeSection(
+      path: '/profile',
+      icon: Icons.person_outlined,
+      titleKey: 'profile.title',
+      descriptionKey: 'home.profile_desc',
+    ),
+    _HomeSection(
       path: '/settings',
       icon: Icons.settings_outlined,
       titleKey: 'settings.title',

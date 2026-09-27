@@ -6,8 +6,15 @@
     "exit": "Выход",
     "save": "Сохранить",
     "create": "Создать",
+    "delete": "Удалить",
+    "confirm": "Подтвердить",
+    "restore": "Восстановить",
     "retry": "Повторить",
     "error_blank_input": "Заполните поле",
+    "operations": "Операции",
+    "create_desc": "Создать новую запись в таблице",
+    "delete_desc": "Удалить выбранные записи",
+    "reset_filter_desc": "Сбросить фильтр по группе",
     "from": "От",
     "to": "До",
     "error_no_internet": "Нет подключения к интернету",
@@ -20,11 +27,30 @@
     "username_hint_text": "Введите логин",
     "password_label": "Пароль",
     "password_hint_text": "Введите пароль",
-    "login_btn": "Войти"
+    "login_btn": "Войти",
+    "current_password": "Текущий пароль",
+    "new_password": "Новый пароль",
+    "repeat_password": "Повторите пароль",
+    "new_login": "Новый логин",
+    "save_login": "Сохранить логин",
+    "save_password": "Сохранить пароль",
+    "login_updated": "Логин обновлён",
+    "password_updated": "Пароль обновлён",
+    "error_wrong_password": "Неверный текущий пароль",
+    "error_duplicate_login": "Такой логин уже занят",
+    "error_password_mismatch": "Пароли не совпадают",
+    "error_weak_password": "Пароль должен быть не короче 8 символов"
+  },
+  "profile": {
+    "title": "Профиль",
+    "login_section": "Логин администратора",
+    "password_section": "Пароль администратора",
+    "subtitle": "Здесь можно сменить логин и пароль входа в панель."
   },
   "navigation": {
     "menu": "Меню",
-    "home": "Главная"
+    "home": "Главная",
+    "profile": "Профиль"
   },
   "home": {
     "title": "Главная",
@@ -36,7 +62,8 @@
     "students_desc": "Подтверждайте студентов, редактируйте профили и баллы.",
     "tasks_desc": "Назначайте ситуационные задачи и проверяйте ответы.",
     "exams_desc": "Собирайте экзамены, цели и вопросы.",
-    "settings_desc": "Тема оформления и язык."
+    "settings_desc": "Тема оформления и язык.",
+    "profile_desc": "Сменить логин и пароль администратора."
   },
   "errors": {
     "network": {
@@ -102,7 +129,19 @@
     "delete_question": "Удалить выбранных студентов?",
     "confirm_question": "Подтвердить выбранных студентов?",
     "unconfirm_question": "Снять подтверждение у выбранных студентов?",
-    "recovery_question": "Восстановить выбранных студентов?"
+    "recovery_question": "Восстановить выбранных студентов?",
+    "confirm_action": "Подтвердить",
+    "unconfirm_action": "Снять",
+    "restore_action": "Восстановить",
+    "delete_action": "Удалить",
+    "export_excel": "Excel",
+    "print_selected": "Печать",
+    "export_excel_desc": "Скачать выбранных студентов в Excel",
+    "print_selected_desc": "Распечатать выбранных студентов",
+    "confirm_desc": "Подтвердить выбранных студентов",
+    "unconfirm_desc": "Снять подтверждение у выбранных студентов",
+    "restore_desc": "Восстановить выбранных студентов",
+    "delete_desc": "Удалить выбранных студентов"
   },
   "tasks": {
     "title": "Задачи",
@@ -113,12 +152,14 @@
     "delete_question": "Удалить выбранные задачи?",
     "add_placeholder_title": "Название задачи",
     "add_placeholder_content": "Текст задания",
-    "add_placeholder_group": "Группа",
+    "add_placeholder_group": "Группы",
+    "selected_groups": "Выбранные группы",
+    "add_group": "Добавить",
     "add_placeholder_points": "Баллы",
     "start_at": "Начало",
     "end_at": "Конец",
     "points": "баллы",
-    "group": "Группа",
+    "group": "Группы",
     "details": "Детали задачи",
     "answers": "Ответы студентов",
     "answers_empty": "Ответов пока нет",
@@ -131,7 +172,9 @@
     "grade_pending": "Снять оценку",
     "error_not_found": "Задача не найдена",
     "error_invalid": "Проверьте поля задачи",
-    "date_range_invalid": "Дата конца должна быть позже даты начала"
+    "date_range_invalid": "Дата конца должна быть позже даты начала",
+    "reset_filter": "Сбросить фильтр",
+    "edit": "Изменить"
   },
   "exams": {
     "title": "Экзамены",
@@ -172,7 +215,8 @@
     "question_invalid": "Заполните поля. Для вопроса с выбором нужны минимум два варианта и один правильный.",
     "error_not_found": "Ресурс экзамена не найден",
     "error_invalid": "Проверьте поля экзамена",
-    "error_conflict": "Экзамен уже начался — содержимое нельзя изменить"
+    "error_conflict": "Экзамен уже начался — содержимое нельзя изменить",
+    "reset_filter": "Сбросить фильтр"
   },
   "months": {
     "1": "января",

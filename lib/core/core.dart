@@ -19,4 +19,5 @@ export 'widgets/confirm_dialog.dart';
 export 'widgets/app_dropdown.dart';
 export 'widgets/app_dropdown_input.dart';
 export 'widgets/hor_line.dart';
+export 'widgets/table_operations.dart';
 export 'strings.dart';

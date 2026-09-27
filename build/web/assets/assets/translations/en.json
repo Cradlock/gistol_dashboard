@@ -6,8 +6,15 @@
     "exit": "Exit",
     "save": "Save",
     "create": "Create",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "restore": "Restore",
     "retry": "Retry",
     "error_blank_input": "This field is required",
+    "operations": "Operations",
+    "create_desc": "Create a new row in the table",
+    "delete_desc": "Delete the selected rows",
+    "reset_filter_desc": "Clear the group filter",
     "from": "From",
     "to": "To",
     "error_no_internet": "No internet connection",
@@ -20,11 +27,30 @@
     "username_hint_text": "Enter username",
     "password_label": "Password",
     "password_hint_text": "Enter password",
-    "login_btn": "Sign in"
+    "login_btn": "Sign in",
+    "current_password": "Current password",
+    "new_password": "New password",
+    "repeat_password": "Repeat password",
+    "new_login": "New login",
+    "save_login": "Save login",
+    "save_password": "Save password",
+    "login_updated": "Login updated",
+    "password_updated": "Password updated",
+    "error_wrong_password": "Current password is incorrect",
+    "error_duplicate_login": "This login is already taken",
+    "error_password_mismatch": "Passwords do not match",
+    "error_weak_password": "Password must be at least 8 characters"
+  },
+  "profile": {
+    "title": "Profile",
+    "login_section": "Administrator login",
+    "password_section": "Administrator password",
+    "subtitle": "Change the login and password used to open the dashboard."
   },
   "navigation": {
     "menu": "Menu",
-    "home": "Home"
+    "home": "Home",
+    "profile": "Profile"
   },
   "home": {
     "title": "Home",
@@ -36,7 +62,8 @@
     "students_desc": "Confirm students, edit profiles, and track scores.",
     "tasks_desc": "Assign situational tasks and review answers.",
     "exams_desc": "Build exams, set targets, and add questions.",
-    "settings_desc": "Switch theme and language."
+    "settings_desc": "Switch theme and language.",
+    "profile_desc": "Change the administrator login and password."
   },
   "errors": {
     "network": {
@@ -102,7 +129,19 @@
     "delete_question": "Delete selected students?",
     "confirm_question": "Confirm selected students?",
     "unconfirm_question": "Unconfirm selected students?",
-    "recovery_question": "Restore selected students?"
+    "recovery_question": "Restore selected students?",
+    "confirm_action": "Confirm",
+    "unconfirm_action": "Unconfirm",
+    "restore_action": "Restore",
+    "delete_action": "Delete",
+    "export_excel": "Excel",
+    "print_selected": "Print",
+    "export_excel_desc": "Download selected students as an Excel file",
+    "print_selected_desc": "Print the selected students",
+    "confirm_desc": "Confirm the selected students",
+    "unconfirm_desc": "Remove confirmation from the selected students",
+    "restore_desc": "Restore the selected students",
+    "delete_desc": "Delete the selected students"
   },
   "tasks": {
     "title": "Tasks",
@@ -113,12 +152,14 @@
     "delete_question": "Delete selected tasks?",
     "add_placeholder_title": "Task title",
     "add_placeholder_content": "Task content",
-    "add_placeholder_group": "Group",
+    "add_placeholder_group": "Groups",
+    "selected_groups": "Selected groups",
+    "add_group": "Add",
     "add_placeholder_points": "Points",
     "start_at": "Start",
     "end_at": "End",
     "points": "points",
-    "group": "Group",
+    "group": "Groups",
     "details": "Task details",
     "answers": "Student answers",
     "answers_empty": "No answers yet",
@@ -131,7 +172,9 @@
     "grade_pending": "Reset grade",
     "error_not_found": "Task not found",
     "error_invalid": "Check task fields",
-    "date_range_invalid": "End date must be after start date"
+    "date_range_invalid": "End date must be after start date",
+    "reset_filter": "Reset filter",
+    "edit": "Edit"
   },
   "exams": {
     "title": "Exams",
@@ -172,7 +215,8 @@
     "question_invalid": "Complete all fields. Choice questions need at least two choices and exactly one correct answer.",
     "error_not_found": "Exam resource not found",
     "error_invalid": "Check the exam fields",
-    "error_conflict": "The exam has started; this content can no longer be changed"
+    "error_conflict": "The exam has started; this content can no longer be changed",
+    "reset_filter": "Reset filter"
   },
   "months": {
     "1": "January",

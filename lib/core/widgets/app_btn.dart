@@ -34,7 +34,8 @@ class AppBtn extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    final bool isSquare = icon != null;
+    final bool hasText = text != null && text!.trim().isNotEmpty;
+    final bool isSquare = icon != null && !hasText;
     final radius = BorderRadius.circular(borderRadius ?? 16.0);
     final padding = innerPadding ?? EdgeInsets.symmetric(
       horizontal: isSquare ? 0 : 16.0,

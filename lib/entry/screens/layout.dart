@@ -13,6 +13,12 @@ class Mainlayout extends StatelessWidget {
       icon: Icons.home,
     ),
     NavItem(
+      path: "/profile",
+      label: AppStrings.navigation.profile,
+      selectedIcon: Icons.person_outlined,
+      icon: Icons.person,
+    ),
+    NavItem(
       path: "/groups",
       label: AppStrings.groups.title,
       selectedIcon: Icons.group_outlined,

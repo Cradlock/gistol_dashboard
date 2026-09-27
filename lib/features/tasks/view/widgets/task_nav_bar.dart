@@ -78,51 +78,56 @@ class _TasksNavbarState extends State<TasksNavbar> {
               ),
             ),
             const SizedBox(width: 8),
-            AppBtn(
-              onPressed: () async {
-                try {
-                  await tasksProvider.applyGroupFilter(null);
-                  if (mounted) setState(() => _selectedGroup = null);
-                } on AppException catch (e) {
-                  ErrorHandler.handle(e);
-                }
-              },
-              icon: Icons.filter_alt_off,
-              borderRadius: 50,
-            ),
-            const SizedBox(width: 8),
-            AppBtn(
-              onPressed: () async {
-                if (tasksProvider.selectedTasks.value.isEmpty) {
-                  await showActionConfirmDialog(
-                    context: context,
-                    message: AppStrings.tasks.notSelected.tr(),
-                    isCancel: false,
-                  );
-                  return;
-                }
-                await showActionConfirmDialog(
-                  context: context,
-                  message:
-                      '${AppStrings.tasks.deleteQuestion.tr()} (${tasksProvider.selectedTasks.value.length})',
-                  onConfirm: () async {
-                    await tasksProvider.deleteSelectedTasks();
+            TableOperationsButton(
+              operations: [
+                TableOperation(
+                  icon: Icons.filter_alt_off,
+                  title: AppStrings.tasks.resetFilter.tr(),
+                  description: AppStrings.common.resetFilterDesc.tr(),
+                  onSelected: () async {
+                    try {
+                      await tasksProvider.applyGroupFilter(null);
+                      if (mounted) setState(() => _selectedGroup = null);
+                    } on AppException catch (e) {
+                      ErrorHandler.handle(e);
+                    }
                   },
-                );
-              },
-              icon: Icons.delete,
-              borderRadius: 50,
-            ),
-            const SizedBox(width: 8),
-            AppBtn(
-              onPressed: () async {
-                await showAppDialog(
-                  context: context,
-                  content: const AddTaskCard(),
-                );
-              },
-              icon: Icons.add,
-              borderRadius: 50,
+                ),
+                TableOperation(
+                  icon: Icons.delete,
+                  title: AppStrings.common.delete.tr(),
+                  description: AppStrings.common.deleteDesc.tr(),
+                  onSelected: () async {
+                    if (tasksProvider.selectedTasks.value.isEmpty) {
+                      await showActionConfirmDialog(
+                        context: context,
+                        message: AppStrings.tasks.notSelected.tr(),
+                        isCancel: false,
+                      );
+                      return;
+                    }
+                    await showActionConfirmDialog(
+                      context: context,
+                      message:
+                          '${AppStrings.tasks.deleteQuestion.tr()} (${tasksProvider.selectedTasks.value.length})',
+                      onConfirm: () async {
+                        await tasksProvider.deleteSelectedTasks();
+                      },
+                    );
+                  },
+                ),
+                TableOperation(
+                  icon: Icons.add,
+                  title: AppStrings.common.create.tr(),
+                  description: AppStrings.common.createDesc.tr(),
+                  onSelected: () async {
+                    await showAppDialog(
+                      context: context,
+                      content: const AddTaskCard(),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),

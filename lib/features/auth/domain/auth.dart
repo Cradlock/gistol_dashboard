@@ -68,3 +68,39 @@ class AuthSignResponse {
     );
   }
 }
+
+class AdminCodeUpdateRequest implements ToJsonable {
+  final String currentPassword;
+  final String code;
+
+  const AdminCodeUpdateRequest({
+    required this.currentPassword,
+    required this.code,
+  });
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'current_password': currentPassword,
+      'code': code,
+    };
+  }
+}
+
+class AdminPasswordUpdateRequest implements ToJsonable {
+  final String currentPassword;
+  final String newPassword;
+
+  const AdminPasswordUpdateRequest({
+    required this.currentPassword,
+    required this.newPassword,
+  });
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'current_password': currentPassword,
+      'new_password': newPassword,
+    };
+  }
+}

@@ -23,6 +23,53 @@ class AuthService {
     return await _api.get<User>("student/me", converter: User.converter);
   }
 
+  Future<WrResponse<AdminProfile>> adminMe() async {
+    return await _api.get<AdminProfile>(
+      "auth/admin/me",
+      converter: AdminProfile.converter,
+    );
+  }
+
+  Future<WrResponse<AdminProfile>> updateAdminCode(
+    AdminCodeUpdateRequest data,
+  ) async {
+    final response = await _api.patch<AdminProfile>(
+      "auth/admin/code",
+      converter: AdminProfile.converter,
+      data: data,
+    );
+    if (response.statusCode == 401) {
+      throw InvalidCurrentPasswordException();
+    }
+    if (response.statusCode == 409) {
+      throw DuplicateAdminLoginException();
+    }
+    if (!response.isSuccess || response.data == null) {
+      throw InvalidCurrentPasswordException();
+    }
+    return response;
+  }
+
+  Future<WrResponse<AdminProfile>> updateAdminPassword(
+    AdminPasswordUpdateRequest data,
+  ) async {
+    final response = await _api.patch<AdminProfile>(
+      "auth/admin/password",
+      converter: AdminProfile.converter,
+      data: data,
+    );
+    if (response.statusCode == 401) {
+      throw InvalidCurrentPasswordException();
+    }
+    if (response.statusCode == 422) {
+      throw WeakPasswordException();
+    }
+    if (!response.isSuccess || response.data == null) {
+      throw InvalidCurrentPasswordException();
+    }
+    return response;
+  }
+
 }
 
 

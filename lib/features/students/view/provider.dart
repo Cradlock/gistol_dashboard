@@ -182,6 +182,11 @@ class StudentsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  List<Student> get selectedStudentModels {
+    final ids = selectedStudents.toSet();
+    return students.where((student) => ids.contains(student.id)).toList();
+  }
+
   // Потверждение аккаунтов
   Future<void> confirmStudents() async {
     if(selectedStudents.isNotEmpty){

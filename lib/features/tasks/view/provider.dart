@@ -67,12 +67,34 @@ class TasksProvider extends ChangeNotifier {
       final response = await _service.createTask(data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         tasks.value = [...tasks.value, response.data!];
+        notifyListeners();
         return;
       }
       if (response.statusCode == 404) throw TaskNotFoundError();
       if (response.statusCode == 422 || response.statusCode == 400) {
         throw TaskInvalidError();
       }
+    } finally {
+      isOperationLoading.value = false;
+    }
+  }
+
+  Future<void> updateTask(int id, TaskWriteRequest data) async {
+    isOperationLoading.value = true;
+    try {
+      final response = await _service.updateTask(id, data);
+      if (response.statusCode == 404) throw TaskNotFoundError();
+      if (response.statusCode == 422 || response.statusCode == 400) {
+        throw TaskInvalidError();
+      }
+      if (!response.isSuccess || response.data == null) {
+        throw TaskInvalidError();
+      }
+      tasks.value = [
+        for (final task in tasks.value)
+          if (task.id == id) response.data! else task,
+      ];
+      notifyListeners();
     } finally {
       isOperationLoading.value = false;
     }

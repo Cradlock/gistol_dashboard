@@ -20,6 +20,38 @@ class InvalidSignDataException extends AppException {
     );
 }
 
+class InvalidCurrentPasswordException extends AppException {
+  InvalidCurrentPasswordException()
+      : super(
+          displayType: ExceptDisplayType.toast,
+          localKey: AppStrings.auth.errorWrongPassword,
+        );
+}
+
+class DuplicateAdminLoginException extends AppException {
+  DuplicateAdminLoginException()
+      : super(
+          displayType: ExceptDisplayType.toast,
+          localKey: AppStrings.auth.errorDuplicateLogin,
+        );
+}
+
+class PasswordMismatchException extends AppException {
+  PasswordMismatchException()
+      : super(
+          displayType: ExceptDisplayType.toast,
+          localKey: AppStrings.auth.errorPasswordMismatch,
+        );
+}
+
+class WeakPasswordException extends AppException {
+  WeakPasswordException()
+      : super(
+          displayType: ExceptDisplayType.toast,
+          localKey: AppStrings.auth.errorWeakPassword,
+        );
+}
+
 class SessionExpired extends AppException {
   SessionExpired() : super(
     displayType: ExceptDisplayType.redirect,

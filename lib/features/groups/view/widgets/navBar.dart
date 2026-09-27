@@ -65,8 +65,17 @@ class GroupNavbar extends StatelessWidget {
 
             const SizedBox(width: 8),  
             PopupMenuButton(
-              icon: const Icon(Icons.tune),
               tooltip: AppStrings.groups.filters.tr(),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                child: Row(
+                  children: [
+                    const Icon(Icons.tune, size: 20),
+                    const SizedBox(width: 8),
+                    Text(AppStrings.groups.filters.tr()),
+                  ],
+                ),
+              ),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               offset: const Offset(0, 40),
               onSelected: (String value) {
@@ -102,41 +111,44 @@ class GroupNavbar extends StatelessWidget {
                 ];
               }
             ),
-            const SizedBox(width: 8),  
-            AppBtn(
-              onPressed: () async {
-                if(groupProvider.selectedGroups.value.length <= 0){
-                  await showActionConfirmDialog(
-                    context: context,
-                    message: AppStrings.groups.notSelected.tr(),
-                    isCancel: false
-                  );
-                  return; 
-                } 
-                await showActionConfirmDialog(
-                  context: context, 
-                  message: "${AppStrings.groups.deleteQuestion.tr()} (${groupProvider.selectedGroups.value.length})", 
-                  onConfirm: () async {
-                    
-                    await groupProvider.deleteSelectedGroups();
-                  }
-                );
-
-              }, 
-              icon: Icons.delete, 
-              borderRadius: 50,
-            ),
-            
-            const SizedBox(width: 8),  
-            AppBtn(
-              onPressed: () async {
-                await showAppDialog(
-                  context: context,
-                  content: const AddGroupCard(),
-                );
-              }, 
-              icon: Icons.add, 
-              borderRadius: 50,
+            const SizedBox(width: 8),
+            TableOperationsButton(
+              operations: [
+                TableOperation(
+                  icon: Icons.delete,
+                  title: AppStrings.common.delete.tr(),
+                  description: AppStrings.common.deleteDesc.tr(),
+                  onSelected: () async {
+                    if (groupProvider.selectedGroups.value.isEmpty) {
+                      await showActionConfirmDialog(
+                        context: context,
+                        message: AppStrings.groups.notSelected.tr(),
+                        isCancel: false,
+                      );
+                      return;
+                    }
+                    await showActionConfirmDialog(
+                      context: context,
+                      message:
+                          '${AppStrings.groups.deleteQuestion.tr()} (${groupProvider.selectedGroups.value.length})',
+                      onConfirm: () async {
+                        await groupProvider.deleteSelectedGroups();
+                      },
+                    );
+                  },
+                ),
+                TableOperation(
+                  icon: Icons.add,
+                  title: AppStrings.common.create.tr(),
+                  description: AppStrings.common.createDesc.tr(),
+                  onSelected: () async {
+                    await showAppDialog(
+                      context: context,
+                      content: const AddGroupCard(),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),

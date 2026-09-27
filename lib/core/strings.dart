@@ -6,6 +6,7 @@ class AppStrings {
   static const tasks = TaskStrings();
   static const exams = ExamStrings();
   static const settings = SettingsStrings();
+  static const profile = ProfileStrings();
   static const navigation = NavigationStrings();
   static const home = HomeStrings();
   static const errors = ErrorsStrings();
@@ -26,8 +27,15 @@ class CommonStrings {
   String get exit => _k("exit");
   String get save => _k("save");
   String get create => _k("create");
+  String get delete => _k("delete");
+  String get confirm => _k("confirm");
+  String get restore => _k("restore");
   String get retry => _k("retry");
   String get errorBlankInput => _k("error_blank_input");
+  String get operations => _k("operations");
+  String get createDesc => _k("create_desc");
+  String get deleteDesc => _k("delete_desc");
+  String get resetFilterDesc => _k("reset_filter_desc");
 
   String get from => _k("from");
   String get to => _k("to");
@@ -65,6 +73,30 @@ class AuthStrings {
   String get passwordLabel => _k("password_label");
   String get passwordHint => _k("password_hint_text");
   String get loginBtn => _k("login_btn");
+  String get currentPassword => _k("current_password");
+  String get newPassword => _k("new_password");
+  String get repeatPassword => _k("repeat_password");
+  String get newLogin => _k("new_login");
+  String get saveLogin => _k("save_login");
+  String get savePassword => _k("save_password");
+  String get loginUpdated => _k("login_updated");
+  String get passwordUpdated => _k("password_updated");
+  String get errorWrongPassword => _k("error_wrong_password");
+  String get errorDuplicateLogin => _k("error_duplicate_login");
+  String get errorPasswordMismatch => _k("error_password_mismatch");
+  String get errorWeakPassword => _k("error_weak_password");
+}
+
+class ProfileStrings {
+  const ProfileStrings();
+
+  static const String _ns = "profile.";
+  static String _k(String key) => "$_ns$key";
+
+  String get title => _k("title");
+  String get loginSection => _k("login_section");
+  String get passwordSection => _k("password_section");
+  String get subtitle => _k("subtitle");
 }
 
 class NavigationStrings {
@@ -75,6 +107,7 @@ class NavigationStrings {
 
   String get menu => _k("menu");
   String get home => _k("home");
+  String get profile => _k("profile");
 }
 
 class HomeStrings {
@@ -93,6 +126,7 @@ class HomeStrings {
   String get tasksDesc => _k("tasks_desc");
   String get examsDesc => _k("exams_desc");
   String get settingsDesc => _k("settings_desc");
+  String get profileDesc => _k("profile_desc");
 }
 
 class ErrorsStrings {
@@ -183,6 +217,18 @@ class StudentsStrings {
   String get confirmQuestion => _k("confirm_question");
   String get unconfirmQuestion => _k("unconfirm_question");
   String get recoveryQuestion => _k("recovery_question");
+  String get confirmAction => _k("confirm_action");
+  String get unconfirmAction => _k("unconfirm_action");
+  String get restoreAction => _k("restore_action");
+  String get deleteAction => _k("delete_action");
+  String get exportExcel => _k("export_excel");
+  String get printSelected => _k("print_selected");
+  String get exportExcelDesc => _k("export_excel_desc");
+  String get printSelectedDesc => _k("print_selected_desc");
+  String get confirmDesc => _k("confirm_desc");
+  String get unconfirmDesc => _k("unconfirm_desc");
+  String get restoreDesc => _k("restore_desc");
+  String get deleteDesc => _k("delete_desc");
 }
 
 class TaskStrings {
@@ -200,6 +246,8 @@ class TaskStrings {
   String get addPlaceholderTitle => _k("add_placeholder_title");
   String get addPlaceholderContent => _k("add_placeholder_content");
   String get addPlaceholderGroup => _k("add_placeholder_group");
+  String get selectedGroups => _k("selected_groups");
+  String get addGroup => _k("add_group");
   String get addPlaceholderPoints => _k("add_placeholder_points");
   String get startAt => _k("start_at");
   String get endAt => _k("end_at");
@@ -218,6 +266,8 @@ class TaskStrings {
   String get errorNotFound => _k("error_not_found");
   String get errorInvalid => _k("error_invalid");
   String get dateRangeInvalid => _k("date_range_invalid");
+  String get resetFilter => _k("reset_filter");
+  String get edit => _k("edit");
 }
 
 class ExamStrings {
@@ -265,4 +315,5 @@ class ExamStrings {
   String get errorNotFound => _k('error_not_found');
   String get errorInvalid => _k('error_invalid');
   String get errorConflict => _k('error_conflict');
+  String get resetFilter => _k('reset_filter');
 }
