@@ -33,7 +33,7 @@ class _ExamFormDialogState extends State<ExamFormDialog> {
     );
     _startAt =
         widget.exam?.startAt.toLocal() ??
-        DateTime.now().add(const Duration(hours: 1));
+        DateTime.now();
     _start.text = _format(_startAt);
   }
 
