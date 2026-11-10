@@ -4,6 +4,7 @@ import 'package:gistol_dashboard/core/core.dart';
 import 'package:gistol_dashboard/features/exams/domain/exam.dart';
 import 'package:gistol_dashboard/features/exams/view/provider.dart';
 import 'package:gistol_dashboard/features/exams/view/widgets/exam_form_dialog.dart';
+import 'package:gistol_dashboard/features/exams/view/widgets/exam_sessions_tab.dart';
 import 'package:gistol_dashboard/features/exams/view/widgets/question_form_dialog.dart';
 import 'package:gistol_dashboard/features/exams/view/widgets/target_form_dialog.dart';
 import 'package:gistol_dashboard/features/groups/groups.dart';
@@ -150,18 +151,23 @@ class _ExamDetailsDialogState extends State<ExamDetailsDialog> {
                       const SizedBox(height: 12),
                       Expanded(
                         child: DefaultTabController(
-                          length: 2,
+                          length: 3,
                           child: Column(
                             children: [
                               TabBar(
                                 tabs: [
                                   Tab(text: AppStrings.exams.targets.tr()),
                                   Tab(text: AppStrings.exams.questions.tr()),
+                                  Tab(text: AppStrings.exams.sessions.tr()),
                                 ],
                               ),
                               Expanded(
                                 child: TabBarView(
-                                  children: [_targets(exam), _questions(exam)],
+                                  children: [
+                                    _targets(exam),
+                                    _questions(exam),
+                                    ExamSessionsTab(exam: exam),
+                                  ],
                                 ),
                               ),
                             ],

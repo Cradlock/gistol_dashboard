@@ -23,3 +23,12 @@ class ExamConflictError extends AppException {
         localKey: AppStrings.exams.errorConflict,
       );
 }
+
+/// 409 при проверке ответа: попытка ещё не сдана студентом.
+class ExamReviewConflictError extends AppException {
+  ExamReviewConflictError()
+    : super(
+        displayType: ExceptDisplayType.toast,
+        localKey: AppStrings.exams.errorReviewConflict,
+      );
+}

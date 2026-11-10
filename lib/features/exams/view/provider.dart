@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:gistol_dashboard/features/exams/domain/errors.dart';
 import 'package:gistol_dashboard/features/exams/domain/exam.dart';
+import 'package:gistol_dashboard/features/exams/domain/session.dart';
 import 'package:gistol_dashboard/features/exams/services/exams_service.dart';
 
 class ExamsProvider extends ChangeNotifier {
@@ -165,6 +167,34 @@ class ExamsProvider extends ChangeNotifier {
     final response = await _service.deleteQuestion(exam.id, questionId);
     _service.ensureSuccess(response);
     return getExam(exam.id);
+  }
+
+  Future<SessionListResponse> getSessions(int examId) async {
+    final response = await _service.getSessions(examId);
+    _service.ensureSuccess(response);
+    return response.data!;
+  }
+
+  Future<TeacherSessionDetail> getSession(int sessionId) async {
+    final response = await _service.getSession(sessionId);
+    _service.ensureSuccess(response);
+    return response.data!;
+  }
+
+  /// Принять ([accepted] = true, полный балл) или отклонить (0 баллов)
+  /// текстовый ответ. Возвращает обновлённую попытку целиком.
+  Future<TeacherSessionDetail> reviewAnswer(
+    int sessionId,
+    int answerId, {
+    required bool accepted,
+  }) async {
+    final response = await _service.reviewAnswer(
+      sessionId,
+      answerId,
+      ExamAnswerReviewRequest(accepted: accepted),
+    );
+    _service.ensureSuccess(response, onConflict: ExamReviewConflictError.new);
+    return response.data!;
   }
 
   @override

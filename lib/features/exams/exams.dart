@@ -1,4 +1,5 @@
 export 'domain/exam.dart';
+export 'domain/session.dart';
 export 'domain/errors.dart';
 export 'screens/exams_screen.dart';
 export 'services/exams_service.dart';
