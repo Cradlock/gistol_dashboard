@@ -1,6 +1,7 @@
 import 'package:gistol_dashboard/core/core.dart';
 import 'package:gistol_dashboard/features/exams/domain/exam.dart';
 import 'package:gistol_dashboard/features/exams/domain/errors.dart';
+import 'package:gistol_dashboard/features/exams/domain/session.dart';
 
 class ExamsService {
   final ApiClient _api;
@@ -78,13 +79,39 @@ class ExamsService {
   Future<WrResponse<bool>> deleteQuestion(int examId, int questionId) => _api
       .delete('exams/$examId/questions/$questionId', converter: (_) => true);
 
-  void ensureSuccess(WrResponse<dynamic> response) {
+  Future<WrResponse<SessionListResponse>> getSessions(int examId) => _api.get(
+    'exams/$examId/sessions',
+    converter: SessionListResponse.converter,
+  );
+
+  Future<WrResponse<TeacherSessionDetail>> getSession(int sessionId) =>
+      _api.get(
+        'exams/sessions/$sessionId',
+        converter: TeacherSessionDetail.converter,
+      );
+
+  Future<WrResponse<TeacherSessionDetail>> reviewAnswer(
+    int sessionId,
+    int answerId,
+    ExamAnswerReviewRequest data,
+  ) => _api.patch(
+    'exams/sessions/$sessionId/answers/$answerId',
+    converter: TeacherSessionDetail.converter,
+    data: data,
+  );
+
+  /// [onConflict] позволяет подставить свою ошибку для 409
+  /// (по умолчанию — «содержимое экзамена заблокировано»).
+  void ensureSuccess(
+    WrResponse<dynamic> response, {
+    AppException Function()? onConflict,
+  }) {
     if (response.isSuccess) return;
     switch (response.statusCode) {
       case 404:
         throw ExamNotFoundError();
       case 409:
-        throw ExamConflictError();
+        throw onConflict?.call() ?? ExamConflictError();
       default:
         throw ExamInvalidError();
     }

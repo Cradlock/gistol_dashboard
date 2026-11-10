@@ -315,5 +315,30 @@ class ExamStrings {
   String get errorNotFound => _k('error_not_found');
   String get errorInvalid => _k('error_invalid');
   String get errorConflict => _k('error_conflict');
+  String get errorReviewConflict => _k('error_review_conflict');
   String get resetFilter => _k('reset_filter');
+
+  // Результаты и проверка ответов студентов
+  String get sessions => _k('sessions');
+  String get sessionsEmpty => _k('sessions_empty');
+  String get sessionsFilteredEmpty => _k('sessions_filtered_empty');
+  String get filterAll => _k('filter_all');
+  String get filterNeedsReview => _k('filter_needs_review');
+  String get needsReview => _k('needs_review');
+  String get statusStarted => _k('status_started');
+  String get statusSubmitted => _k('status_submitted');
+  String get statusExpired => _k('status_expired');
+  String get student => _k('student');
+  String get attemptStarted => _k('attempt_started');
+  String get attemptSubmitted => _k('attempt_submitted');
+  String get score => _k('score');
+  String get refresh => _k('refresh');
+  String get studentAnswer => _k('student_answer');
+  String get noAnswer => _k('no_answer');
+  String get accept => _k('accept');
+  String get reject => _k('reject');
+  String get awaitingReview => _k('awaiting_review');
+  String get reviewProgress => _k('review_progress');
+  String get reviewUnavailable => _k('review_unavailable');
+  String get loadFailed => _k('load_failed');
 }
